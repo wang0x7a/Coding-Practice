@@ -8,6 +8,36 @@ struct Heap {
    ElemType *elements;
 };
 
+/* Indices start from 0 */
+/*
+int getParent(int i) {
+   return (i - 1) / 2;
+}
+
+int getLeft(int i) {
+  return 2 * i + 1;
+}
+
+int getRight(int i) {
+  return 2 * i + 2;
+}
+*/
+
+/* We could reserve pq->elements[0] as a sentinel, 
+ * and the indices start from 1
+ */
+int getParent(int i) {
+   return i / 2;
+}
+
+int getLeft(int i) {
+   return 2 * i;
+}
+
+int getRight(int i) {
+   return 2 * i + 1;
+}
+
 int isEmpty(PriorityQueue pq) {
    if (pq == NULL) {
       printf("Invalid input - NULL priority queue!");
@@ -49,4 +79,25 @@ PriorityQueue initialize(int maxElements) {
    }
 
    return pq;
+}
+
+void destroy(PriorityQueue pq) {
+   if (NULL == pq)
+      printf("The priority queue is already NULL!\n");
+   else {
+      free(pq);
+      pq = NULL;
+      printf("Successfully destroyed the priority queue.\n");
+   }
+}
+
+void makeEmpty(PriorityQueue pq) {
+   if (NULL != pq)
+      free(pq);
+
+   pq = initialize(0);
+}
+
+void insert(ElemType x, PriorityQueue pq) {
+   
 }

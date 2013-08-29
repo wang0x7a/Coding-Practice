@@ -39,25 +39,29 @@ void printStr(char *str) {
 }
 
 void reverse(char *str) {
-   /* locate the end of this string */
-   char *end, tmp, *ancor;
-   ancor = end = str;
-   // NOT *end++
-   while (*(++end) != '\0')
-      ;
-   //while (*end) {
-   //   end++;
-   //} 
+   if (str) {
+      /* locate the end of this string */
+      char *end, tmp, *ancor;
+      ancor = end = str;
+      // NOT *end++
+      while (*(++end) != '\0')
+         ;
+      //while (*end) {
+      //   end++;
+      //} 
 
-   end--;
-
-   /* swap */
-   while (str < end) {
-      tmp = *end;
-      *end = *str;
-      *str = tmp;
-
-      str++;
       end--;
+
+      /* swap */
+      while (str < end) {
+         tmp = *end;
+         *end = *str;
+         *str = tmp;
+
+         str++;
+         end--;
+      }
    }
+   else
+      printf("The string is NULL!");
 }

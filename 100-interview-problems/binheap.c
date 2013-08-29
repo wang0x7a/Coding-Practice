@@ -69,7 +69,7 @@ PriorityQueue initialize(int maxElements) {
    if (NULL == pq)
       printf("Out of space!");
    else {
-      pq->elements = malloc(sizeof(maxElements + 1) * sizeof(ElemType));
+      pq->elements = malloc((maxElements + 1) * sizeof(ElemType));
       if (pq->elements == NULL) {
          printf("Out of space!");
          pq = NULL;

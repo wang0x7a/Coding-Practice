@@ -1,5 +1,5 @@
-Practice for C
-==============
+Coding Practice via C and Java
+=============================
 
 Problem Sets
 ------------

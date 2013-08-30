@@ -44,6 +44,23 @@ Position getLast(List list) {
 }
 
 int isCircular(List list) {
+   if (list == NULL) {
+      printf("The input list is NULL!");
+      return 0;
+   }
+
+   Position fast, slow;
+   fast = slow = list;
+
+   /* It would be a bad idea to return a NULL, instead of the last node. */
+   while (fast->pNext != NULL) {
+      slow = slow->pNext;
+      fast = fast->pNext->pNext;
+      if (slow == fast) return 1;
+   }
+
+   return 0;
+   /*
    Position fast, slow;
    if (list == NULL || list->pNext == NULL)
       return 0;
@@ -60,4 +77,5 @@ int isCircular(List list) {
    }
 
    return 0;
+   */
 }

@@ -6,8 +6,8 @@
 
 public class P0103 {
    public static boolean isPermutation(String s, String t) {
-      if (s.length() != t.length()) return false;
       if (s == null && t == null) return false;
+      if (s.length() != t.length()) return false;
 
       int len = s.length();
       int[] letters = new int[256];
@@ -38,5 +38,6 @@ public class P0103 {
       System.out.println(P0103.isPermutation("abcdef", "absedf"));
       System.out.println(P0103.isPermutation("abcabc", "aabbcc"));
       System.out.println(P0103.isPermutation("abcabc", "abc"));
+      System.out.println(P0103.isPermutation(null, null));
    }
 }

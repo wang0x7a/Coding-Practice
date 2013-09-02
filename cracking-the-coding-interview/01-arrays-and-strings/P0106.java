@@ -9,10 +9,10 @@ public class P0106 {
    public static int[][] rotate(int[][] matrix) {
       int n = matrix.length;
       int start, end;
-      for (int layer = 0; layer < n / 2; layer++, n -= 2) {
+      for (int layer = 0, len = n; layer < n / 2; layer++, len -= 2) {
          start = layer;
-         end = n + start - 1;
-         for (int offset = 0; offset < n - 1; offset++) {
+         end = len + start - 1;
+         for (int offset = 0; offset < len - 1; offset++) {
             int tmp = matrix[start + offset][start];
             matrix[start + offset][start] = matrix[start][end - offset];
             matrix[start][end - offset] = matrix[end - offset][end];
@@ -53,7 +53,7 @@ public class P0106 {
 
    public static void main(String[] args) {
       int[][] matrix = {{1,2,3,4}, {5,6,7,8}, {9,10,11,12}, {13,14,15,16}};
-      matrix = P0106.rotate2(matrix);
+      matrix = P0106.rotate(matrix);
       for (int i = 0; i < matrix.length; i++) {
          for (int j = 0; j < matrix[0].length; j++)
             System.out.print(matrix[i][j] + " ");

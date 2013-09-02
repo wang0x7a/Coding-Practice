@@ -41,5 +41,8 @@ public class P0104 {
    public static void main(String[] args) {
       System.out.println(P0104.removeDuplicate("abcdedabfg"));
       System.out.println(P0104.removeDuplicate("abcdefg"));
+      System.out.println(P0104.removeDuplicate("aaaaa"));
+      System.out.println(P0104.removeDuplicate("ababab"));
+      System.out.println(P0104.removeDuplicate("aaaabbb"));
    }
 }

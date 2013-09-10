@@ -35,6 +35,27 @@ public class P0201 {
       return head;
    }
 
+   public static Node removeDupsWithoutBuffer(Node head) {
+      if (head == null)
+         throw new NoSuchElementException("Empty list");
+
+      Node previous = head.next;
+      Node current = head.next;
+      while (current != null) {
+         for (Node runner = head; runner != current; runner = runner.next) {
+            if (runner.data == current.data) {
+               previous.next = current.next;
+               break;
+            }
+            else {
+               previous = current;
+            }
+         }
+         current = current.next;
+      }
+      return head;
+   }
+
    private Node initialize(int[] data) {
       Node head = new Node();
       head.data = Integer.MIN_VALUE;
@@ -73,5 +94,6 @@ public class P0201 {
       Node list = p0201.initialize(data);
 
       System.out.println(p0201.toString(removeDupsWithBuffer(list)));
+      System.out.println(p0201.toString(removeDupsWithoutBuffer(list)));
    }
 }

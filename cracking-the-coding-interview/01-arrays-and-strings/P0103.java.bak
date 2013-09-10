@@ -1,0 +1,11 @@
+/* 1.3 Design and algorithm and write code to remove the duplicate characters
+ * in a string without using any additional buffuer.
+ * NOTE: one or two additional variables are fine, but an extra copy of the
+ * array is not.
+ * */
+
+public class P0103 {
+   public static void removeDuplicates(char[] str) {
+      
+   }
+}

@@ -27,7 +27,20 @@ public class P0202 {
      return slow;
    }
 
-      private Node initialize(int[] data) {
+   public static int nth2LastRec(Node head, int n) {
+      if (head == null) {
+         return 0;
+      }
+
+      int i = nth2LastRec(head.next, n) + 1;
+      if (i == n) {
+         System.out.println(head.data);
+      }
+
+      return i;
+   }
+
+   private Node initialize(int[] data) {
       Node head = new Node();
       head.data = Integer.MIN_VALUE;
       head.next = null;
@@ -67,5 +80,7 @@ public class P0202 {
       //Node node = nth2Last(list, 13);
       Node node = nth2Last(list, 3);
       System.out.println(node.data);
+
+      nth2LastRec(list, 3);
    }
 }

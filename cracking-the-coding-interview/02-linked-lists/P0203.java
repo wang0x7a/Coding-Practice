@@ -43,15 +43,12 @@ public class P0203 {
     * next node to the node to be deleted.
     * */
    public static boolean deleteNode(Node node) {
-      if (node == null)
+      if (node == null || node.next == null)
          return false;
 
       Node next = node.next;
-      if (next == null) node = null;
-      else {
-         node.data = next.data;
-         node.next = next.next;
-      }
+      node.data = next.data;
+      node.next = next.next;
       return true;
    }
 

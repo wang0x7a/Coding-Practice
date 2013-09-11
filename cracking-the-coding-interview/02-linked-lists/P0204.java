@@ -83,7 +83,6 @@ public class P0204 {
       int tmp = 0;
       while (ra != null && rb != null) {
          tmp = ra.digit + rb.digit + carrier;
-         System.out.print(tmp + " ");
          rb.digit = ra.digit = tmp % 10;
          carrier = tmp / 10;
 
@@ -101,7 +100,9 @@ public class P0204 {
        * simultaneously).
        */
       else {
-         ra.digit += carrier;
+         if (ra != null)
+            ra.digit += carrier;
+
          return a;
       }
    }
@@ -141,7 +142,7 @@ public class P0204 {
    public static void main(String[] args) {
       int[] n1 = {3, 1, 5};
       //int[] n1 = {3};
-      int[] n2 = {5, 5, 2};
+      int[] n2 = {7, 5, 2};
       P0204 p0204 = new P0204();
       Node a = p0204.initialize(n1);
       Node b = p0204.initialize(n2);

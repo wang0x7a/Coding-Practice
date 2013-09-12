@@ -13,13 +13,16 @@
  *    if the stack is empty, since the pointer initially points to the first
  *    element of the stack, which is not initiated whenc constructing the stack.
  *    One possible solution is to set the first element as a sentinel.
+ * 2. Another approach to address #1, is to set the entries in stackPointes as
+ *    the relative indices in each stack, starting from -1 when initializing,
+ *    instead of the absolute indices in the buffer.
  * */
 
 public class P0301 {
    // Implementation with array stack, assuming the value type is int.
    public class StacksInArray {
-      private int stackSize = 300;
-      private int numOfStacks = 3;
+      private int stackSize;
+      private int numOfStacks;
       private int[] buffer;
       private int[] stackPointer;
 

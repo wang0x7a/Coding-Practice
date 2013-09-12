@@ -16,6 +16,9 @@
  * 2. Another approach to address #1, is to set the entries in stackPointes as
  *    the relative indices in each stack, starting from -1 when initializing,
  *    instead of the absolute indices in the buffer.
+ * 3. When implementing sequential data structures with arrays, space
+ *    deficiency is always a problem, and we could address this issue by 
+ *    switching to linked lists.
  * */
 
 public class P0301 {
@@ -112,6 +115,94 @@ public class P0301 {
       }
    }
 
+   /* 2nd solution to post-consideration#3
+    * One problem would be that, we need to use 
+    */
+   public class StacksInList {
+      private class Node {
+         private int data;
+         private Node previous;
+
+         public Node(int data, Node previous) {
+            this.data = data;
+            this.previous = previous;
+         }
+      }
+
+      private final int numOfStacks;
+      private final int capacity;
+      private Node[] top;
+      private Node[] buffer;
+      private int size;
+
+      public StacksInList() {
+         this(3, 300);
+      }
+
+      public StacksInList(int numOfStacks, int capacity) {
+         this.numOfStacks = numOfStacks;
+         // the following line is a bad implementation, since sizeOfStacks
+         // can be modified outside of the object
+         // this.sizeOfStacks = sizeOfStacks;
+         /*
+         this.sizeOfStacks = new int[numOfStacks];
+         int total = 0;
+         for (int i = 0; i < sizeOfStacks.length; i++) {
+            this.sizeOfStacks[i] = sizeOfStacks[i];
+            total += sizeOfStacks[i];
+         }
+         */
+         this.capacity = capacity;
+         top = new Node[numOfStacks];
+         buffer = new Node[capacity];
+         size = 0;
+      }
+
+      public void push(int stackNum, int value) {
+         if (!isValidStack(stackNum))
+            throw new IndexOutOfBoundsException("Stack number should be " +
+               "between " + 0 + " and " + (numOfStacks - 1));
+
+         if (isFull())
+            throw new IndexOutOfBoundsException("Out of space!");
+
+         Node node = new Node(value, top[stackNum]);
+         buffer[++size] = node;
+         top[stackNum] = node;
+      }
+
+      public int pop(int stackNum) {
+         if (!isValidStack(stackNum))
+            throw new IndexOutOfBoundsException("Stack number should be " +
+               "between " + 0 + " and " + (numOfStacks - 1));
+
+         if (isEmpty(stackNum))
+            throw new IndexOutOfBoundsException("Stack #" + stackNum
+               " is empty.");
+
+         Node node = top[stackNum];
+         top[stackNum] = node.previous;
+         
+      }
+
+      // Since all the stacks are sharing the space of a given array,
+      // we can only check the size of the array.
+      public boolean isFull() {
+         return size == capacity;
+      }
+
+      // No need to check if the whole buffer is empty.
+      public boolean isEmpty(int stackNum) {
+         return top[stackNum] != null;
+      }
+
+      private boolean isValidStack(int stackNum) {
+         return stackNum >= 0 && stackNum < numOfStacks;
+      }
+
+      
+   }
+
    public static void main(String[] args) {
       P0301 p0301 = new P0301();
       StacksInArray stacks = p0301.new StacksInArray();
@@ -123,5 +214,7 @@ public class P0301 {
       System.out.println(stacks.isEmpty2(0));
       System.out.println(stacks.pop(0));
       System.out.println(stacks.isEmpty2(0));
+
+      StacksInList stacks2 = p0301.new StacksInList();
    }
 }

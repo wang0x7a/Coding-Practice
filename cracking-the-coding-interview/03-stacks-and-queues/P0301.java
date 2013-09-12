@@ -36,7 +36,8 @@ public class P0301 {
          this.numOfStacks = numOfStacks;
 
          buffer = new int[stackSize * numOfStacks];
-         initPointers();
+         //initPointers();
+         initPointers2();
       }
 
       private void initPointers() {
@@ -46,6 +47,13 @@ public class P0301 {
             // fix for post-consideration#1
             buffer[stackPointer[i]] = Integer.MIN_VALUE;
          }
+      }
+
+      // appendency for post-consideration#2
+      private void initPointers2() {
+         stackPointer = new int[numOfStacks];
+         for (int i = 0; i < numOfStacks; i++)
+            stackPointer[i] = -1;
       }
 
       public int getNumOfStacks() {
@@ -72,7 +80,14 @@ public class P0301 {
          }
 
          // fix for post-consideration#1
+         /*
          if (isEmpty(stackNum)) {
+            throw new IndexOutOfBoundsException("Stack #" + stackNum +
+               " is empty.");
+         }
+         */
+         // appendency for post-consideration#2
+         if (isEmpty2(stackNum)) {
             throw new IndexOutOfBoundsException("Stack #" + stackNum +
                " is empty.");
          }
@@ -85,6 +100,11 @@ public class P0301 {
 
       public boolean isEmpty(int stackNum) {
          return stackPointer[stackNum] == stackNum * stackSize;
+      }
+
+      // appendency for post-consideration#2
+      public boolean isEmpty2(int stackNum) {
+         return stackPointer[stackNum] == -1;
       }
 
       public boolean isFull(int stackNum) {
@@ -100,8 +120,8 @@ public class P0301 {
 
       stacks.push(1, 5);
       stacks.push(0, 4);
-      System.out.println(stacks.isEmpty(0));
+      System.out.println(stacks.isEmpty2(0));
       System.out.println(stacks.pop(0));
-      System.out.println(stacks.isEmpty(0));
+      System.out.println(stacks.isEmpty2(0));
    }
 }

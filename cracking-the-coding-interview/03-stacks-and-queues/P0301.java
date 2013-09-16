@@ -121,9 +121,9 @@ public class P0301 {
    public class StacksInList {
       private class Node {
          private int data;
-         private Node previous;
+         private int previous;
 
-         public Node(int data, Node previous) {
+         public Node(int data, int previous) {
             this.data = data;
             this.previous = previous;
          }
@@ -131,9 +131,14 @@ public class P0301 {
 
       private final int numOfStacks;
       private final int capacity;
-      private Node[] top;
+      //private Node[] top;
+      private int[] top;
       private Node[] buffer;
       private int size;
+
+      // Record the position of the smallest available index,
+      // which will be used for the next push
+      private int minPos;
 
       public StacksInList() {
          this(3, 300);
@@ -153,9 +158,25 @@ public class P0301 {
          }
          */
          this.capacity = capacity;
-         top = new Node[numOfStacks];
+         top = new int[numOfStacks];
          buffer = new Node[capacity];
          size = 0;
+         minPos = 0;
+         top = new int[numOfStacks];
+      }
+
+      private int searchPos(int start) {
+         int res = start;
+
+         int len = buffer.length;
+         for (int i = start; i < len; i++) {
+            if (buffer[i] == null) {
+               res = i;
+               break;
+            }
+         }
+
+         return res; 
       }
 
       public void push(int stackNum, int value) {
@@ -167,8 +188,10 @@ public class P0301 {
             throw new IndexOutOfBoundsException("Out of space!");
 
          Node node = new Node(value, top[stackNum]);
-         buffer[++size] = node;
-         top[stackNum] = node;
+         buffer[minPos] = node;
+         top[stackNum] = minPos;
+
+         minPos = searchPos(minPos + 1);
       }
 
       public int pop(int stackNum) {
@@ -177,12 +200,19 @@ public class P0301 {
                "between " + 0 + " and " + (numOfStacks - 1));
 
          if (isEmpty(stackNum))
-            throw new IndexOutOfBoundsException("Stack #" + stackNum
+            throw new IndexOutOfBoundsException("Stack #" + stackNum + 
                " is empty.");
 
-         Node node = top[stackNum];
+         Node node = buffer[top[stackNum]];
+         buffer[top[stackNum]] = null;
+         // the available position with the smallest index in Stack#stackNum
+         int tmp = top[stackNum];
          top[stackNum] = node.previous;
-         
+
+         // update the available position of the smallest index
+         if (tmp < minPos) minPos = tmp;
+
+         return node.data;
       }
 
       // Since all the stacks are sharing the space of a given array,
@@ -193,14 +223,17 @@ public class P0301 {
 
       // No need to check if the whole buffer is empty.
       public boolean isEmpty(int stackNum) {
-         return top[stackNum] != null;
+         return buffer[top[stackNum]] == null;
       }
 
       private boolean isValidStack(int stackNum) {
          return stackNum >= 0 && stackNum < numOfStacks;
       }
 
-      
+      public int getMinPos() {
+         return minPos;
+      }
+
    }
 
    public static void main(String[] args) {
@@ -216,5 +249,12 @@ public class P0301 {
       System.out.println(stacks.isEmpty2(0));
 
       StacksInList stacks2 = p0301.new StacksInList();
+      stacks2.push(0, 1);
+      stacks2.push(1, 2);
+      System.out.println(stacks2.getMinPos());
+      stacks2.push(0, 1);
+      System.out.println(stacks2.getMinPos());
+      stacks2.pop(1);
+      System.out.println(stacks2.getMinPos());
    }
 }

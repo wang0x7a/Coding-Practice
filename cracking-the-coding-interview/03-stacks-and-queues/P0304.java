@@ -65,6 +65,24 @@ public class P0304 {
          }
       }
 
+      // recursive approach:
+      // 1. a direct recursive approach without explicit pops and pushes
+      public void moveRec(int height, int from, int spare, int to) {
+         // make the logic consistent
+         // the outer level's "spare" is the inner level's 
+         // "to", so when there is only one disk, we need 
+         // to move it to "to" 
+         if (height == 1) {
+            rods.get(to).push(rods.get(from).pop());
+            return;
+         }
+
+         moveRec(height - 1, from, to, spare);
+         rods.get(to).push(rods.get(from).pop());
+         moveRec(height - 1, spare, from, to);
+         
+      }
+
       public void printTower() {
          for (int i = 0; i < 3; i++) {
             System.out.println("Tower #" + i + ": " + toString(i));
@@ -97,19 +115,20 @@ public class P0304 {
                tmp = rods.get(i).peek();
                index = i;
             }
-
          }
          return index;
       }
    }
 
    public static void main(String[] args) {
+      int height = Integer.parseInt(args[0]);
       P0304 p0304 = new P0304();
-      HanoiTower tower = p0304.new HanoiTower(4);
+      HanoiTower tower = p0304.new HanoiTower(height);
       System.out.println("===Original Tower===");
       tower.printTower();
       System.out.println("====Begin moving====");
-      tower.move();
+      //tower.move();
+      tower.moveRec(height, 0, 1, 2);
       System.out.println("=======Output=======");
       tower.printTower();
    }

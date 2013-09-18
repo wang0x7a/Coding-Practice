@@ -25,6 +25,9 @@ public class P0305 {
          else {
             // it is the best to keep the capacity even, otherwise, we cannot
             // use the full capacity when pushing elements continuously.
+            // Moreover, we cannot set the outCapacity < inCapacity, since the
+            // first element will be printed out lastly after pushing 
+            // continuously.
             outCapacity = capacity / 2 + 1;
             inCapacity = capacity / 2;
          }

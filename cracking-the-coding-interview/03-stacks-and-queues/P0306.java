@@ -12,10 +12,8 @@ public class P0306 {
       int tmp;
 
       while (!stack.isEmpty()) {
-         if (buffer.isEmpty()) buffer.push(stack.pop());
-
          tmp = stack.pop();
-         while (tmp >= buffer.peek() && !buffer.isEmpty()) {
+         while (!buffer.isEmpty() && tmp >= buffer.peek()) {
             stack.push(buffer.pop());
          }
          buffer.push(tmp);

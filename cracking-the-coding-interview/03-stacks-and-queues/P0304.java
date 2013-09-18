@@ -74,11 +74,17 @@ public class P0304 {
          // to move it to "to" 
          if (height == 1) {
             rods.get(to).push(rods.get(from).pop());
+            System.out.println("------------------");
+            printTower();
+            System.out.println("------------------");
             return;
          }
 
          moveRec(height - 1, from, to, spare);
          rods.get(to).push(rods.get(from).pop());
+         System.out.println("------------------");
+         printTower();
+         System.out.println("------------------");
          moveRec(height - 1, spare, from, to);
          
       }
@@ -87,7 +93,6 @@ public class P0304 {
          for (int i = 0; i < 3; i++) {
             System.out.println("Tower #" + i + ": " + toString(i));
          }
-         
       }
 
       private String toString(int stackNum) {

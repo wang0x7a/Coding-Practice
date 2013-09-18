@@ -47,7 +47,13 @@ public class P0303 {
       }
 
       public int pop() {
-         return (int)currentStack.pop();
+         int res = currentStack.pop();
+         if (currentStack.size() == 0 && index > 0) {
+            buffer.remove(index);
+            currentStack = buffer.get(--index);
+         }
+
+         return res;
       }
 
       public int getIndex() {
@@ -78,6 +84,7 @@ public class P0303 {
       System.out.println(stacks.getIndex());
       stacks.push(2);
       System.out.println(stacks.getIndex());
+      System.out.println(stacks.pop());
       System.out.println(stacks.pop());
       System.out.println(stacks.popAt(0));
       System.out.println(stacks.popAt(1));

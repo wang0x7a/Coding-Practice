@@ -8,6 +8,8 @@ public class P0305 {
       private Stack<T> in, out;
       private int capacity;
       private int size;
+      private int inCapacity;
+      private int outCapacity;
 
       public Queue() {
          this(4);
@@ -18,13 +20,21 @@ public class P0305 {
          // we could randomly allocate the capacity to the two stacks,
          // for convenience, we constrict the capacity of each stack as
          // half of the queue.
+         if (capacity % 2 == 0)
+            inCapacity = outCapacity = capacity / 2;
+         else {
+            // it is the best to keep the capacity even, otherwise, we cannot
+            // use the full capacity when pushing elements continuously.
+            outCapacity = capacity / 2 + 1;
+            inCapacity = capacity / 2;
+         }
          in = new Stack<T>();
          out = new Stack<T>();
          size = 0;
       }
 
       public void enqueue(T value) {
-         if (isStackFull(in)) {
+         if (isInStackFull()) {
             if (isStackEmpty(out))
                transport();
             else
@@ -68,13 +78,17 @@ public class P0305 {
             throw new IllegalStateException("The out stack is not empty, " +
                "CANNOT tranport!");
 
-         while (!isStackFull(out)) {
+         while (!isOutStackFull() && !isStackEmpty(in)) {
             out.push(in.pop());
          }
       }
 
-      private boolean isStackFull(Stack<T> stack) {
-         return stack.size() == capacity / 2;
+      private boolean isInStackFull() {
+         return in.size() == inCapacity;
+      }
+
+      private boolean isOutStackFull() {
+         return out.size() == outCapacity;
       }
 
       private boolean isStackEmpty(Stack<T> stack) {
@@ -83,12 +97,13 @@ public class P0305 {
    }
 
    public static void main(String[] args) {
+      int capacity = Integer.parseInt(args[0]);
       P0305 p0305 = new P0305();
-      Queue<Integer> queue = p0305.new Queue<Integer>();
+      Queue<Integer> queue = p0305.new Queue<Integer>(capacity);
       //queue.dequeue();
-      for (int i = 0; i < 4; i++)
+      for (int i = 0; i < capacity; i++)
          queue.enqueue(i);
-      for (int i = 0; i < 4; i++)
+      for (int i = 0; i < capacity; i++)
          System.out.println(queue.dequeue());
    }
 }

@@ -214,4 +214,40 @@ public class BST<Key extends Comparable<Key>, Value> {
       else
          return size(x.left);
    }
+
+   /* select the key with rank k
+    */
+   public Key select(int k) {
+      if (k < 0 || k >= size(root))
+         return null;
+
+      // Node x = selectX(root, k);
+      Node x = select(root, k);
+      if (x == null) return null;
+      else return x.key;
+   }
+
+   private Node select(Node x, int k) {
+      if (x == null) return null;
+
+      int t = size(x.left);
+      if (t < k)
+         return select(x.left, k);
+      if (t > k)
+         return select(x.right, k - t - 1);
+
+      return x;
+   }
+
+   private Node selectX(Node x, int k) {
+      if (x == null) return null;
+
+      int rank = rank(root, k);
+      if (rank > k)
+         return selectX(x.right, k);
+      else if (rank < k)
+         return selectX(x.left, k);
+      else
+         return x;
+   }
 }

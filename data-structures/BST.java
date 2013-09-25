@@ -92,7 +92,7 @@ public class BST<Key extends Comparable<Key>, Value> {
    public Node deleteMax(Node x) {
       if (x.right == null) return x.left;
       x.right = deleteMax(x.left);
-      x.N = size(x.left) + size(x.right) - 1;
+      x.N = size(x.left) + size(x.right) + 1;
       return x;
    }
 
@@ -122,7 +122,7 @@ public class BST<Key extends Comparable<Key>, Value> {
          // 3. make x.left point to the left subtree of the original x.
          x.left = t.left;
       }
-      x.N = size(x.left) + size(x.right) - 1;
+      x.N = size(x.left) + size(x.right) + 1;
       return x;
    }
 
@@ -141,8 +141,56 @@ public class BST<Key extends Comparable<Key>, Value> {
       return max(root).key;
    }
 
-   private Key max(Node x) {
+   private Node max(Node x) {
       if (x.right == null) return x;
       else return max(x.right);
+   }
+   /* Find the biggest element that is less than key.
+    * */
+   public Key floor(Key key) {
+      Node x = floor(root, key);
+      if (x == null) return null
+      else return x.key;
+   }
+
+   // find the floor of key in the tree rooted in x.
+   private Node floor(Node x, Key key) {
+      if (root == null) return null;
+
+      int cmp = key.compreTo(x.key);
+      // if there is a node whose key equals to key
+      if (cmp == 0) 
+         return x;
+      // continue searching if the key of current node is less than
+      // the given key
+      if (cmp < 0)
+         return floor(x.left, key);
+
+      // stop searching the left subtree when we find the first node whose
+      // key is less than 'key'
+      // x.key could be the target floor, if the keys in the right subtree
+      // are all greater than 'key'.
+      // Once we find at least one node whose key is no greater than (<=) 'key'
+      // this will be a candidate
+      Node t = floor(x.right, key);
+      if (t == null) return x;
+      else return t;
+   }
+
+   public Key ceiling(Key key) {
+      Node x = ceiling(root, key);
+      if (x == null) return null;
+      else return x.key;
+   }
+
+   private Node ceiling(Node x, Key key) {
+      if (x == null) return null;
+
+      int cmp = key.compareTo(x.key);
+      if (cmp == 0) return x;
+      if (cmp > 0) return ceiling(x.right, key);
+      Node t = ceiling(x.left, key);
+      if (t == null) return x;
+      else return t;
    }
 }

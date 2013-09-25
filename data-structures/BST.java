@@ -193,4 +193,25 @@ public class BST<Key extends Comparable<Key>, Value> {
       if (t == null) return x;
       else return t;
    }
+
+   /* rank k: the key such that precisely k other keys in the BST are smaller
+    * */
+   public int rank(Key key) {
+      key = floor(key);
+      return (root, key);
+   }
+
+   /* "key" exists in the BST
+    * */
+   private int rank(Node x, Key key) {
+      if (x == null) return 0;
+
+      int cmp = key.compareTo(x.key);
+      if (cmp < 0)
+         return rank(x.left, key);
+      else if (cmp > 0)
+         return 1 + size(x.left) + rank(x.right, key);
+      else
+         return size(x.left);
+   }
 }

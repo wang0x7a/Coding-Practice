@@ -198,7 +198,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     * */
    public int rank(Key key) {
       key = floor(key);
-      return (root, key);
+      return rank(root, key);
    }
 
    /* "key" exists in the BST

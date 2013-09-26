@@ -1,4 +1,5 @@
 import java.util.NoSuchElementException;
+import java.util.Queue;
 
 public class BST<Key extends Comparable<Key>, Value> {
    private class Node {
@@ -249,5 +250,34 @@ public class BST<Key extends Comparable<Key>, Value> {
          return selectX(x.left, k);
       else
          return x;
+   }
+
+   /* return the key set within a given range
+    * */
+   public Iterable<Key> keys() {
+      return keys(min(), max());
+   }
+
+   public Iterable<Key> keys(Key lo, Key hi) {
+      Queue<Key> queue = new Queue<Key>();
+      keys(root, queue, lo, hi);
+      return queue;
+   }
+
+   private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {
+      if (x == null) return;
+
+      int cmpLo = x.key.compareTo(lo);
+      int cmpHi = x.key.compareTo(hi);
+      if (cmpHi == 1) return keys(x.left, queue, lo, hi);
+      if (cmpLo == -1) return keys(x.right, queue, lo, hi);
+
+      if (cmpHi <= 0 && cmpLo >= 0) {
+         keys(x.left, queue, lo, hi);
+         queue = queue.enqueue(x.key);
+         keys(x.right, queue, lo, hi);
+      }
+
+      return;
    }
 }

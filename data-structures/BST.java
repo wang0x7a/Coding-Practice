@@ -272,12 +272,46 @@ public class BST<Key extends Comparable<Key>, Value> {
       if (cmpHi == -1) return keys(x.left, queue, lo, hi);
       if (cmpLo == 1) return keys(x.right, queue, lo, hi);
 
+      // here we ensure that the key within the range will be enqueued.
       if (cmpHi >= 0 && cmpLo <= 0) {
          keys(x.left, queue, lo, hi);
-         queue = queue.enqueue(x.key);
+         queue = queue.offer(x.key);
          keys(x.right, queue, lo, hi);
       }
 
       return;
+   }
+
+   // a naive version via inorder traversal, which will visit all the elements
+   // in the BST
+   private void keys2(Node x, Queue<Key> queue, Key lo, Key hi) {
+      if (x == null) return;
+
+      keys2(x.left, queue, lo, hi);
+
+      int cmpLo = lo.compareTo(x.key);
+      int cmpHi = hi.compareTo(x.key);
+      if (cmpLo <= 0 && cmpHi >= 0)
+         queue.offer(x.key);
+
+      keys2(x.right, queue, lo, hi);
+   }
+
+   // an imporved solution:
+   // the defect of keys2 is that the time complexity is consistently O(n),
+   // since we will have to visit every node in the tree.
+   // One way to avoid this could be check if the current node is within the
+   // given range, and use the info to do further operations.
+   private void keys3(Node x, Queue<Key> queue, Key lo, Key hi) {
+      if (x == null) return null;
+
+      int cmpLo = lo.compareTo(x.key);
+      int cmpHi = hi.compareTo(x.key);
+      // find the lower bound in the left subtree
+      if (cmpLo < 0) keys3(x.left, queue, lo, hi);
+      // discard those that are less than lo
+      if (cmpLo <= 0 && cmpHi >= 0) queue.offer(x.key);
+      // find the upper bound in the right subtree
+      if (cmpHi > 0) keys3(x.right, queue, lo, hi);
    }
 }

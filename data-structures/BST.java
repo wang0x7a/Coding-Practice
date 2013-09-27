@@ -267,12 +267,12 @@ public class BST<Key extends Comparable<Key>, Value> {
    private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {
       if (x == null) return;
 
-      int cmpLo = x.key.compareTo(lo);
-      int cmpHi = x.key.compareTo(hi);
-      if (cmpHi == 1) return keys(x.left, queue, lo, hi);
-      if (cmpLo == -1) return keys(x.right, queue, lo, hi);
+      int cmpLo = lo.compareTo(x.key);
+      int cmpHi = hi.compareTo(x.key);
+      if (cmpHi == -1) return keys(x.left, queue, lo, hi);
+      if (cmpLo == 1) return keys(x.right, queue, lo, hi);
 
-      if (cmpHi <= 0 && cmpLo >= 0) {
+      if (cmpHi >= 0 && cmpLo <= 0) {
          keys(x.left, queue, lo, hi);
          queue = queue.enqueue(x.key);
          keys(x.right, queue, lo, hi);

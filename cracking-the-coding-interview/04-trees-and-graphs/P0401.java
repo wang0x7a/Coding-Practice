@@ -8,6 +8,10 @@ public class P0401 {
    private class Node {
       int value;
       Node left, right;
+
+      public Node(int value) {
+         this.value = value;
+      }
    }
 
    public boolean isBalanced(Node root) {
@@ -33,16 +37,52 @@ public class P0401 {
    }
 
    // an improved solution:
-   // 1) One of the problems of isBalanced above is that, the space complexity
-   // is consistently O(lgN), since we need to check from the root.
-   // Actually, if a subtree is unbalanced, the whole tree will be as well.
-   // Therefore, we could potentially reduce the space complexity by checking
-   // if one subtree is balanced, and will return false once we find an
-   // unbalanced one.
-   // 2) every time we calculate height, the heights of subtrees (subtrees of 
+   // every time we calculate height, the heights of subtrees (subtrees of 
    // subtrees) are repeatedly calculated, we coudl avaoid this redundancy by
-   // adding extra variables to record the heights of subtrees.
-   public boolean isBalanced2(Node root) {
-      if (root == null) return true;
+   // adding extra variables to record the heights of subtrees at each level.
+   public boolean isBalanced2(Node root, int[] height) {
+      if (root == null) {
+         height[0] = 0;
+         return true;
+      }
+
+
+      int[] leftHeight = new int[1];
+      int[] rightHeight = new int[1];
+
+      boolean isLeftBalanced = isBalanced2(root.left, leftHeight);
+      boolean isRightBalanced = isBalanced2(root.right, rightHeight);
+
+      if (isLeftBalanced && isRightBalanced) {
+         if (Math.abs(leftHeight[0] - rightHeight[0]) <= 1) {
+            int tmp = (leftHeight[0] > rightHeight[0]) ? leftHeight[0] : rightHeight[0];
+            height[0] = height[0] + tmp + 1;
+            System.out.println(height[0]);
+            return true;
+         }
+      }
+
+     return false;
+   }
+
+   public Node buildTree() {
+      Node root = new Node(1);
+      root.left = new Node(2);
+      root.right = new Node(3);
+      root.left.left = new Node(4);
+      root.left.right = new Node(5);
+      root.right.left = new Node(6);
+      root.left.left.left = new Node(7);
+      root.left.left.left.left = new Node(8);
+
+      return root;
+   }
+
+   public static void main(String[] args) {
+      P0401 p0401 = new P0401();
+      Node root = p0401.buildTree();
+      int[] height = new int[1];
+      System.out.println(p0401.isBalanced2(root, height));
+      System.out.println(p0401.isBalanced(root));
    }
 }

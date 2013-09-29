@@ -17,16 +17,16 @@ public class P0403 {
    }
 
    private Node toBST(int[] data, int start, int end) {
-      if (start == end)
-         return new Node(data[start]);
-
-      if (end - start == 1) {
+      int mid = (start + end) / 2;
+      if (mid == start) {
          Node root = new Node(data[start]);
-         root.right = new Node(data[end]);
+
+         if (end != start)
+            root.right = new Node(data[end]);
+
          return root;
       }
 
-      int mid = (start + end) / 2;
       Node root = new Node(data[mid]);
       root.left = toBST(data, start, mid - 1);
       root.right = toBST(data, mid + 1, end);
@@ -45,9 +45,14 @@ public class P0403 {
 
    public static void main(String[] args) {
       int[] data = {1, 2, 3, 4, 5, 6, 7, 8};
+      int[] data1 = {1, 2, 3, 4, 5, 6, 7};
 
       P0403 p0403 = new P0403();
       Node root = p0403.toBST(data);
+      p0403.inorder(root);
+      System.out.println();
+
+      root = p0403.toBST(data1);
       p0403.inorder(root);
       System.out.println();
    }

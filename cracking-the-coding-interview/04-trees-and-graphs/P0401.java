@@ -51,16 +51,19 @@ public class P0401 {
       int[] rightHeight = new int[1];
 
       boolean isLeftBalanced = isBalanced2(root.left, leftHeight);
-      boolean isRightBalanced = isBalanced2(root.right, rightHeight);
 
-      if (isLeftBalanced && isRightBalanced) {
-         if (Math.abs(leftHeight[0] - rightHeight[0]) <= 1) {
-            int tmp = (leftHeight[0] > rightHeight[0]) ? leftHeight[0] : rightHeight[0];
-            height[0] = height[0] + tmp + 1;
-            System.out.println(height[0]);
-            return true;
+      if (isLeftBalanced) {
+         boolean isRightBalanced = isBalanced2(root.right, rightHeight);
+
+         if (isRightBalanced) {
+            if (Math.abs(leftHeight[0] - rightHeight[0]) <= 1) {
+               int tmp = (leftHeight[0] > rightHeight[0]) ? leftHeight[0] : rightHeight[0];
+               height[0] = height[0] + tmp + 1;
+               System.out.println(height[0]);
+               return true;
+            }
          }
-      }
+     }
 
      return false;
    }

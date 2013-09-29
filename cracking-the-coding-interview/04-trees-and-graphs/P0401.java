@@ -11,6 +11,8 @@ public class P0401 {
    }
 
    public boolean isBalanced(Node root) {
+      if (root == null) return false;
+
       return Math.abs(height(root.left) - height(root.right)) <= 1; 
    }
 

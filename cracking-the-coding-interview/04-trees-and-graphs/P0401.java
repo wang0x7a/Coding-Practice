@@ -63,7 +63,7 @@ public class P0401 {
                return true;
             }
          }
-     }
+      }
 
      return false;
    }
@@ -76,7 +76,7 @@ public class P0401 {
       root.left.right = new Node(5);
       root.right.left = new Node(6);
       root.left.left.left = new Node(7);
-      root.left.left.left.left = new Node(8);
+      //root.left.left.left.left = new Node(8);
 
       return root;
    }

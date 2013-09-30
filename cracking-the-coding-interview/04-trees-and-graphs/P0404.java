@@ -35,6 +35,8 @@ public class P0404 {
       }
    }
 
+    // time complexity: O(N)
+    // space complexity: O(lgN), worst O(N)
    public void levelOrder(Node root, int level, ArrayList<List<Node>> list) {
       if (root == null) return;
 

@@ -1,6 +1,8 @@
 /* 4.6 Design an algorithm and write code to find the first common ancestor
  * of two nodes in a binary tree. Avoid storing additional nodes in a data
  * structure. NOTE: this is not necessarily a binary search tree.
+ *
+ * Similar questions: check if two nodes are in a same binary tree;
  * */
 import java.util.NoSuchElementException;
 
@@ -15,6 +17,7 @@ public class P0406 {
       }
    }
 
+   // average: O(2*lgN), worst: O(2N)
    public Node commonAncestor(Node n, Node m) {
       while (n != null) {
          Node tmp = m;
@@ -28,8 +31,25 @@ public class P0406 {
       return null;
    }
 
+   // check if the two nodes are on the different sides of the current node
    public Node commonAncestor(Node root, Node n, Node m) {
-      
+      // if both nodes are in the same side of the current node,
+      // then search the two nodes in this side
+      if (isInTree(root.left, n) && isInTree(root.left, m))
+         return commonAncestor(root.left, n, m);
+
+      if (isInTree(root.right, n) && isInTree(root.right, m))
+         return commonAncestor(root.right, n, m);
+
+      return root;
+   }
+
+   private boolean isInTree(Node root, Node x) {
+      if (root == null) return false;
+
+      if (root.value == x.value) return true;
+
+      return isInTree(root.left, x) || isInTree(root.right, x);
    }
 
    public Node buildTree() {
@@ -59,6 +79,8 @@ public class P0406 {
       // Node m = root.left.right;
       Node m = root.left.left.left;
       Node common = p0406.commonAncestor(n, m);
-      System.out.println(common.value);
+      Node common1 = p0406.commonAncestor(root, n, m);
+      System.out.println("Solution#1: " + common.value);
+      System.out.println("Solution#2: " + common1.value);
    }
 }

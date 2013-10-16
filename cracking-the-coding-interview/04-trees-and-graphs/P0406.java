@@ -1,4 +1,4 @@
-/* 4.6 Design an algorithm and write code to find the first common ancestor
+/* 2.6 Design an algorithm and write code to find the first common ancestor
  * of two nodes in a binary tree. Avoid storing additional nodes in a data
  * structure. NOTE: this is not necessarily a binary search tree.
  *
@@ -16,6 +16,10 @@ public class P0406 {
          this.value = value;
       }
    }
+
+   private final static int NO_NODES_IN_TREE = 0;
+   private final static int ONE_NODE_IN_TREE = 1;
+   private final static int TWO_NODES_IN_TREE = 2; 
 
    // average: O(2*lgN), worst: O(2N)
    public Node commonAncestor(Node n, Node m) {
@@ -44,6 +48,7 @@ public class P0406 {
       return root;
    }
 
+
    private boolean isInTree(Node root, Node x) {
       if (root == null) return false;
 
@@ -52,6 +57,56 @@ public class P0406 {
       return isInTree(root.left, x) || isInTree(root.right, x);
    }
 
+   public Node commonAncestorX(Node root, Node n, Node m) {
+      if (root == null) return null;
+
+      int numOfNodesInLeft = getNumOfNodesInTree(root.left, n, m, 0);
+      if (numOfNodesInLeft == NO_NODES_IN_TREE) {
+         return commonAncestorX(root.right, n, m);
+      }
+      else if (numOfNodesInLeft == TWO_NODES_IN_TREE) {
+         if (root.left == n || root.left == m)
+            return root;
+         else
+            return commonAncestorX(root.left, n, m);
+      }
+
+      int numOfNodesInRight = getNumOfNodesInTree(root.right, n, m, 0);
+      if (numOfNodesInRight == NO_NODES_IN_TREE) {
+         return commonAncestorX(root.left, n, m);
+      }
+      else if (numOfNodesInRight == TWO_NODES_IN_TREE) {
+         if (root.right == n || root.right == m)
+            return root;
+         else
+            return commonAncestorX(root.right, n, m);
+      }
+
+      return root;
+   }
+
+   private int getNumOfNodesInTree(Node root, Node n, Node m, int numOfNode) {
+      if (root == null) return numOfNode;
+
+      if (numOfNode == TWO_NODES_IN_TREE) return numOfNode;
+
+      if (root == n || root == m) {
+         numOfNode++;
+
+         if (numOfNode == TWO_NODES_IN_TREE) return numOfNode;
+      }
+
+      int left = getNumOfNodesInTree(root.left, n, m, numOfNode);
+      int right = getNumOfNodesInTree(root.right, n, m, numOfNode);
+
+      return Math.max(left, right);
+      /*
+      if (left == TWO_NODES_IN_TREE || right == TWO_NODES_IN_TREE)
+         return TWO_NODES_IN_TREE;
+      else
+         return Math.max(left, right);
+      */
+   }
    public Node buildTree() {
       Node root = new Node(1);
       root.left = new Node(2);
@@ -80,7 +135,10 @@ public class P0406 {
       Node m = root.left.left.left;
       Node common = p0406.commonAncestor(n, m);
       Node common1 = p0406.commonAncestor(root, n, m);
+      Node common2 = p0406.commonAncestorX(root, n, m);
       System.out.println("Solution#1: " + common.value);
       System.out.println("Solution#2: " + common1.value);
+      System.out.println("Solution#3: " + common2.value);
+
    }
 }

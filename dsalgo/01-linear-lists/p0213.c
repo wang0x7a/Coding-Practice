@@ -41,14 +41,18 @@ void construct_groups(int *group) {
 }
 
 int solve(int index, int* group) {
-  int i;
-  for (i = 1; index > 0; i++)
-    index -= group[i];
+  int i = 1;
 
   /* That the for loop stops means that the traget digit is in
    * group[i] with the updated index [1, group[i]]
    * */
+  /*
+  for (; index > 0; i++)
+    index -= group[i];
   index += group[--i];
+  */
+
+  while (group[i] < index) index -= group[i++];
 
   /* Now, search the digit with the corresponding index in group[i].
    * */

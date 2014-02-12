@@ -28,11 +28,10 @@ int main() {
       break;
 
     Dict cand = lookup(word, dict);
-    printf("%s %s ", word, cand[0]);
     if (cand[0] == NULL)
       printf("%s:\n", word);
     else if (cand[0] == word)
-      printf("%s is corret\n", word);
+      printf("%s is correct\n", word);
     else {
       printf("%s:", word);
       int i;
@@ -72,7 +71,6 @@ Dict lookup(Word word, Dict dict) {
   int i, j;
   for (i = 0, j = 0; dict[i] != NULL; i++) {
     int dist = calc_dist(word, dict[i]);
-    printf("%d ", dist);
     if (dist == 0) {
       j = 0;
       cand[j] = word;

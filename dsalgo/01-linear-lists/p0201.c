@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define MAX_DICT_LEN 10000
 #define MAX_WORD_LEN 20 
@@ -15,6 +16,7 @@ Dict build_dict();
 Dict lookup(Word word, Dict dict);
 int calc_dist(Word a, Word b);
 int calc_dist_helper(Word a, int len_a, Word b, int len_b);
+int calc_dist_helper2(Word a, int len_a, Word b, int len_b);
 int min3(int a, int b, int c);
 
 int main() {
@@ -89,12 +91,18 @@ int calc_dist(Word a, Word b) {
   int len_a = strlen(a);
   int len_b = strlen(b);
 
+
   return calc_dist_helper(a, len_a, b, len_b);
+}
+
+int calc_dist_helper2(Word a, int len_a, Word b, int len_b) {
 }
 
 int calc_dist_helper(Word a, int len_a, Word b, int len_b) {
   if (len_a == 0) return len_b;
   if (len_b == 0) return len_a;
+
+  if (abs(len_a - len_b) > 1) return 2;
 
   int cost = a[len_a - 1] == b[len_b - 1] ? 0 : 1;
 

@@ -73,6 +73,7 @@ Dict lookup(Word word, Dict dict) {
   int i, j;
   for (i = 0, j = 0; dict[i] != NULL; i++) {
     int dist = calc_dist(word, dict[i]);
+    //printf("%s %d ", dict[i], dist);
     if (dist == 0) {
       j = 0;
       cand[j] = word;
@@ -91,11 +92,41 @@ int calc_dist(Word a, Word b) {
   int len_a = strlen(a);
   int len_b = strlen(b);
 
-
-  return calc_dist_helper(a, len_a, b, len_b);
+  return calc_dist_helper2(a, len_a, b, len_b);
 }
 
 int calc_dist_helper2(Word a, int len_a, Word b, int len_b) {
+  int d[1 + len_a][1 + len_b];
+
+  // init d
+  int i, j;
+  for (i = 0; i <= len_a; i++)
+    for (j = 0; j <= len_b; j++)
+      d[i][j] = 0;
+
+  for (i = 1; i <= len_a; i++) 
+    d[i][0] = i;
+
+  for (j = 1; j <= len_b; j++)
+    d[0][j] = j;
+
+  for (j = 1; j <= len_b; j++) {
+    for (i = 1; i <= len_a; i++) {
+      if (d[i][j] > 1) return 2;
+      else {
+        //printf("a[i]:%c, b[j]:%c\n", a[i], b[j]);
+        if (a[i - 1] == b[j - 1])
+          d[i][j] = d[i - 1][j - 1];
+        else
+          d[i][j] = min3(
+              d[i - 1][j] + 1,
+              d[i][j - 1] + 1,
+              d[i - 1][j - 1] + 1
+              );
+      }
+    }
+  }
+  return d[len_a][len_b];
 }
 
 int calc_dist_helper(Word a, int len_a, Word b, int len_b) {

@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 struct Card;
 typedef struct Card *PtrToCard;
@@ -19,7 +18,7 @@ Deck remove_at(Deck deck);
 Deck insert_at(Deck deck, int num);
 Deck deal(Deck deck, int card_num, int player_num, int skip);
 Deck init_deck(int card_num);
-void print_deck(int *deck, int card_num);
+void print_deck(Deck deck, int card_num);
 
 int main() {
   int player_num, card_num, skip;
@@ -28,13 +27,23 @@ int main() {
 
   Deck deck = init_deck(card_num); 
   int i;
+  /*
   for (i = 0; i < card_num; i++, deck = deck->next)
     printf("%d ", deck->num);
   printf("\n");
+  */
 
   Deck my_deck = deal(deck, card_num, player_num, skip);
+  /*
   for (i = 0; i < card_num / player_num; i++, my_deck = my_deck->next)
     printf("%d ", my_deck->num);
+  printf("\n");
+  */
+  my_deck = my_deck->next;
+  while (my_deck != NULL) {
+    printf("%d\n", my_deck->num);
+    my_deck = my_deck->next;
+  }
   printf("\n");
 
   exit(0);
@@ -45,17 +54,19 @@ Deck deal(Deck deck, int card_num, int player_num, int skip) {
   Deck my_deck = malloc(sizeof(struct Card)); 
   my_deck->next = NULL;
 
-  Deck current = my_deck;
-  int i = 1, count = 1;
+  int i = 0, count = 1;
   while (i < cards_per_player) {
     if (count % player_num == 0) {
-      insert_at(my_deck, deck->num);
+      printf("insert: %d\n", deck->num);
+      my_deck = insert_at(my_deck, deck->num);
       i++;
     }
 
     count++;
 
     deck = remove_at(deck);
+    card_num--;
+    print_deck(deck, card_num);
     deck = move(deck, skip);
   }
 
@@ -81,14 +92,26 @@ Deck remove_at(Deck deck) {
 }
 
 Deck insert_at(Deck deck, int num) {
+  //if (deck->next == NULL) {
+  /*
+  if (deck->num == 0) {
+    deck->num = num;
+    return deck;
+  }
+  */
+
   Deck head = deck;
 
   PtrToCard card = malloc(sizeof(struct Card));
   card->num = num;
 
-  for (; deck->next != NULL && num > deck->num; deck = deck->next)
-    ;
+  //for (; deck->next != NULL && num > deck->num; deck = deck->next)
+  while (deck->next != NULL) {
+    if (deck->num < num && deck->next->num > num)
+      break;
 
+    deck = deck->next;
+  }
   card->next = deck->next;
   deck->next = card;
 
@@ -119,4 +142,11 @@ Deck init_deck(int card_num) {
   // and thus, we can save one field in Card to construct a doubly
   // linke list
   //return (Deck)current;
+}
+
+void print_deck(Deck deck, int card_num) {
+  int i;
+  for (i = 0; i < card_num; deck = deck->next, i++)
+    printf("%d ", deck->num);
+  printf("\n");
 }

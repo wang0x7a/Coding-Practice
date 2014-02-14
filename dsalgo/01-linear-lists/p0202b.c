@@ -44,7 +44,7 @@ int main() {
     printf("%d\n", my_deck->num);
     my_deck = my_deck->next;
   }
-  printf("\n");
+  //printf("\n");
 
   exit(0);
 }
@@ -57,7 +57,7 @@ Deck deal(Deck deck, int card_num, int player_num, int skip) {
   int i = 0, count = 1;
   while (i < cards_per_player) {
     if (count % player_num == 0) {
-      printf("insert: %d\n", deck->num);
+      //printf("insert: %d\n", deck->num);
       my_deck = insert_at(my_deck, deck->num);
       i++;
     }
@@ -66,7 +66,7 @@ Deck deal(Deck deck, int card_num, int player_num, int skip) {
 
     deck = remove_at(deck);
     card_num--;
-    print_deck(deck, card_num);
+    //print_deck(deck, card_num);
     deck = move(deck, skip);
   }
 

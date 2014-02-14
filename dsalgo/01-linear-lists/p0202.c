@@ -9,6 +9,9 @@ int * move(int *cards, int card_num, int player_num, int skip);
 int * init_deck(int card_num);
 void print_deck(int *deck, int card_num);
 int next_index(int *deck, int card_num, int curr_index, int skip);
+void sort(int *cards, int card_num);
+void sort_helper(int *cards, int left, int right);
+void swap(int *cards, int i, int j);
 
 int main() {
   int player_num, card_num, skip;
@@ -17,14 +20,17 @@ int main() {
 
   int *deck = init_deck(card_num); 
   int i;
+  /*
   for (i = 0; i < card_num; i++)
     printf("%d ", deck[i]);
   printf("\n");
+  */
 
   int *cand = move(deck, card_num, player_num, skip);
+  sort(cand, card_num / player_num);
+
   for (i = 0; i < card_num / player_num; i++)
-    printf("%d ", cand[i]);
-  printf("\n");
+    printf("%d\n", cand[i]);
 
   exit(0);
 }
@@ -43,15 +49,15 @@ int * move(int *cards, int card_num, int player_num, int skip) {
     }
     */
 
-    printf("count: %d\n", count);
+    //printf("count: %d\n", count);
     if (count == player_num) {
       cand[i++] = cards[index];
-      printf("%d\n", cand[i - 1]);
+      //printf("%d\n", cand[i - 1]);
     }
     //else if (count < player_num)
     cards[index] = 0;
-    printf("index: %d\n", index);
-    print_deck(cards, card_num);
+    //printf("index: %d\n", index);
+    //print_deck(cards, card_num);
 
     // update count
     count = (count++) % player_num;
@@ -68,7 +74,7 @@ int * move(int *cards, int card_num, int player_num, int skip) {
     // to avoid stack overflow in next_index
     if (i < cards_per_player)
       index = next_index(cards, card_num, index, skip);
-    printf("index: %d\n", index);
+    //printf("index: %d\n", index);
   }
 
   return cand;
@@ -105,4 +111,31 @@ void print_deck(int *deck, int card_num) {
   for (i = 0; i < card_num; i++)
     printf("%d ", deck[i]);
   printf("\n");
+}
+
+void sort(int *cards, int card_num) {
+  sort_helper(cards, 0, card_num - 1);
+}
+
+void sort_helper(int *cards, int left, int right) {
+  int i, last;
+
+  if (left >= right)
+    return;
+  last = left;
+  for (i = left + 1; i <= right; i++)
+    if (cards[i] < cards[left])
+      swap(cards, ++last, i);
+  swap(cards, left, last);
+  sort_helper(cards, left, last - 1);
+  sort_helper(cards, last + 1, right);
+
+}
+
+void swap(int *cards, int i, int j) {
+  int tmp;
+
+  tmp = cards[i];
+  cards[i] = cards[j];
+  cards[j] = tmp;
 }

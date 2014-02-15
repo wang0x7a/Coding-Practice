@@ -7,13 +7,16 @@
 #define MAX_CARD_NUM 50000
 #define MAX_DECK_SIZE 100000 
 
+int deck[MAX_DECK_SIZE];
+int cand[MAX_CARD_NUM];
+
 void move(int deck[], int cand[], int deck_size, int player_num, int skip);
 void print_deck(int deck[], int deck_size);
 int next_index(int deck[], int deck_size, int curr_index, int skip);
 int next_index2(int deck[], int deck_size, int curr_index, int skip);
-void sort(int *cards, int card_num);
-void sort_helper(int *cards, int left, int right);
-void swap(int *cards, int i, int j);
+void sort(int cards[], int card_num);
+void sort_helper(int cards[], int left, int right);
+void swap(int cards[], int i, int j);
 
 int main() {
   int player_num, deck_size, skip;
@@ -23,7 +26,6 @@ int main() {
   //int *deck = init_deck(card_num); 
   // no need to initialize a deck, we could use -1 to mark a card
   // has been dealt
-  int deck[deck_size + 1];
 
   int i;
   
@@ -35,7 +37,6 @@ int main() {
 
   
   int cards_per_player = deck_size / player_num;
-  int cand[cards_per_player];
 
   move(deck, cand, deck_size, player_num, skip);
 
@@ -50,23 +51,25 @@ int main() {
 void move(int deck[], int cand[], int deck_size, int player_num, int skip) {
   int cards_per_player = deck_size / player_num;
 
-  //int index = 0, count = 1;
-  int index = 1, count = 1;
+  int index = 0, count = 1;
+  //int index = 1, count = 1;
   int i = 0;
   while (i < cards_per_player) {
+  //while (count < deck_size) {
     if (count % player_num == 0) {
       //printf("bessie:%d ", count % 3);
       // no need to check this, since we already checked in next_index
       //if (deck[index] != -1)
-      //cand[i++] = index + 1; 
-      cand[i++] = index; 
+      cand[i++] = index + 1; 
+      //cand[i++] = index; 
     }
 
     deck[index] = -1;
     count++;
 
-    //if (i < cards_per_player)
-      index = next_index2(deck, deck_size, index, skip);
+    if (i < cards_per_player)
+      //index = next_index2(deck, deck_size, index, skip);
+      index = next_index(deck, deck_size, index, skip);
   }
 }
 
@@ -104,11 +107,11 @@ int next_index2(int deck[], int deck_size, int curr_index, int skip) {
   }
 }
 
-void sort(int *cards, int card_num) {
+void sort(int cards[], int card_num) {
   sort_helper(cards, 0, card_num - 1);
 }
 
-void sort_helper(int *cards, int left, int right) {
+void sort_helper(int cards[], int left, int right) {
   int i, last;
 
   if (left >= right)
@@ -123,7 +126,7 @@ void sort_helper(int *cards, int left, int right) {
 
 }
 
-void swap(int *cards, int i, int j) {
+void swap(int cards[], int i, int j) {
   int tmp;
 
   tmp = cards[i];

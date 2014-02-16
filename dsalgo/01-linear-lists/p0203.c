@@ -8,6 +8,7 @@
 typedef char *String;
 
 void insert(char *str, int str_len, char *substr, int substr_len, char *res);
+int read_line(char *str, char *substr);
 
 int main() {
   //char str[MAX_STR_LEN];
@@ -15,8 +16,8 @@ int main() {
   String str = malloc(sizeof(char));
   String substr = malloc(sizeof(char)); 
 
-  while (1) {
-    scanf("%s %s", str, substr);
+  while (read_line(str, substr)) {
+    //scanf("%s %s", str, substr);
     
     int str_len = strlen(str);
     int substr_len = strlen(substr);
@@ -31,6 +32,12 @@ int main() {
       printf("%c", res[i]);
     printf("\n");
   }
+}
+
+int read_line(char *str, char *substr) {
+  if (2 == scanf("%s %s", str, substr))
+    return 1;
+  else return 0;
 }
 
 void insert(char *str, int str_len, char *substr, int substr_len, 

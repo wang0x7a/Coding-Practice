@@ -37,6 +37,7 @@ int main() {
 
     scanf("%s", str);
     len = strlen(str);
+    init(len);
 
     printf("Test case #%d\n", count++);
     for (i = 2; i <= len; i++) {
@@ -63,23 +64,26 @@ void init(int len) {
 int solve(int len) {
   int max = INT_MIN;
   
-  //printf("len: %d", len);
+  //printf("len: %d ", len);
   // the length of A: [1, len / 2]
   int i;
-  for (i = len / 2; i >= 1; i++) {
+  for (i = len / 2; i >= 1; i--) {
   //for (i = 1; i <= len; i++) {
-    if (len % i != 0) break;
+    if (len % i != 0) continue;
 
     // the possible number of repeations
     int j = len / i;
-    if (r[i - 1] > 0) return j * r[i - 1];
-
-    //printf("i: %d, j: %d", i, j);
+    //printf("i: %d, j: %d ", i, j);
     int tmp = cmp(i, j);
     //printf("%d ", tmp);
-    if (tmp > max) {
-      max = tmp;
-      r[len - 1] = max; 
+    
+    if (tmp > 0) {
+      if (r[i - 1] > 0) return j * r[i - 1];
+
+      if (tmp > max) {
+        max = tmp;
+        r[len - 1] = max;
+      }
     }
   }
 

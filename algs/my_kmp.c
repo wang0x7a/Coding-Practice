@@ -40,20 +40,20 @@ void kmp_search(char *pat, char *txt) {
     i++;
   }
   */
-  if (pat[i] == pat[j]) {
-    i++;
-    j++;
-  }
+    if (txt[i] == pat[j]) {
+      i++;
+      j++;
+    }
   
-  if (j > pat_len) {
-    printf("Find pattern in txt at %d\n", i - pat_len);
-    j = 0;
-  }
+    if (j > pat_len) {
+      printf("Find pattern in txt at %d\n", i - pat_len);
+      j = 0;
+    }
 
-  if (pat[i] != pat[j]) {
-    j = lps[j - 1]
+    if (pat[i] != pat[j]) {
+      j = lps[j - 1];
+    }
   }
-
   return;
 }
 

@@ -50,7 +50,7 @@ void kmp_search(char *pat, char *txt) {
       j = 0;
     }
 
-    if (pat[i] != pat[j]) {
+    if (txt[i] != pat[j]) {
       j = lps[j - 1];
     }
   }

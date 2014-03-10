@@ -21,6 +21,9 @@ public class P0411 {
     Stack<Node> stack = new Stack<Node>();
     Node current = root;
     stack.push(root);
+    // we duplicate the root when initializing
+    // stack.pop() => the top node on the stack
+    // current => the current node, pointing to the node we want to process
 
     Node tmp;
 
@@ -67,6 +70,7 @@ public class P0411 {
     root.left.right = new Node(5);
     root.left.right.right = new Node(9);
     root.right.left = new Node(6);
+    root.right.right= new Node(10);
     root.left.left.left = new Node(7);
     root.left.left.left.left = new Node(8);
     //

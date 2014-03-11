@@ -14,6 +14,44 @@ public class P0411 {
     }
   }
 
+  public void InOrderX(Node root) {
+    if (root == null)
+      return;
+
+    Stack<Node> stack = new Stack<Node>();
+    Node current = root;
+    boolean done = false;
+    
+    int stackSize = 0;
+    while (!done) {
+      if (current != null) {
+        stack.push(current);
+        stackSize++;
+        current = current.left;
+      }
+      else {
+        if (stackSize > 0) {
+          current = stack.pop();
+          stackSize--;
+          System.out.println(current.value);
+          current = current.right;
+        }
+        else
+          done = true;
+
+        /*
+        if (current.right == null) {
+          current = stack.pop();
+          stackSize--;
+        }
+        else {
+          current = current.right;
+        }
+        */
+      }
+    }
+  }
+
   public void InOrder(Node root) {
     if (root == null)
       return;
@@ -81,6 +119,7 @@ public class P0411 {
     P0411 p0411 = new P0411();
     Node root = p0411.buildTree();
 
-    p0411.InOrder(root);
+    //p0411.InOrder(root);
+    p0411.InOrderX(root);
   }
 }

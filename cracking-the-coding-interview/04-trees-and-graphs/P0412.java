@@ -18,6 +18,9 @@ public class P0412 {
     return 1 + Math.max(getHeight(node.left), getHeight(node.right));
   }
 
+  // trivial solution
+  // time: O(N^2) (a node of hight h (top-down) will be touched h times)
+  // space: O(lgN)
   public boolean isBalanced(Node root) {
     if (root == null)
       return true;
@@ -29,6 +32,9 @@ public class P0412 {
     return isBalanced(root.right) && isBalanced(root.left);
   }
   
+  // optimize via post-order traversal
+  // time: O(N)
+  // space: O(lgN)
   public int checkHeight(Node root) {
     if (root == null)
       return 0;
@@ -61,6 +67,13 @@ public class P0412 {
     root.right = new Node(3);
     root.left.left = new Node(4);
     root.left.right = new Node(5);
+    root.right.left = new Node(6);
+    root.right.right = new Node(7);
+    root.right.right.right = new Node(8);
+    root.left.left.left = new Node(9);
+    root.left.left.right = new Node(10);
+    root.left.right.left = new Node(11);
+    root.left.left.left.left = new Node(12);
     /*
     root.left.right.right = new Node(9);
     root.right.left = new Node(6);
@@ -76,7 +89,7 @@ public class P0412 {
     P0412 p0412 = new P0412();
     Node root = p0412.buildTree();
 
-    //System.out.println(p0412.isBalanced(root));
+    System.out.println(p0412.isBalanced(root));
     System.out.println(p0412.isBalancedX(root));
   }
 }

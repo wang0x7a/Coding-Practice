@@ -28,12 +28,32 @@ public class P0412 {
     //return Math.abs(leftHeight - rightHeight) <= 1 ? true : false;
     return isBalanced(root.right) && isBalanced(root.left);
   }
-  /*
-  public boolean isBalancedX(Node root) {
+  
+  public int checkHeight(Node root) {
     if (root == null)
+      return 0;
+
+    int leftHeight = checkHeight(root.left);
+    if (leftHeight == -1)
+      return -1;
+
+    int rightHeight = checkHeight(root.right);
+    if (rightHeight == -1)
+      return -1;
+
+    int heightDiff = leftHeight - rightHeight;
+    if (Math.abs(heightDiff) > 1)
+      return -1;
+    else
+      return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  public boolean isBalancedX(Node root) {
+    if (checkHeight(root) == -1)
+      return false;
+    else
       return true;
   }
-  */
 
   public Node buildTree() {
     Node root = new Node(1);
@@ -56,6 +76,7 @@ public class P0412 {
     P0412 p0412 = new P0412();
     Node root = p0412.buildTree();
 
-    System.out.println(p0412.isBalanced(root));
+    //System.out.println(p0412.isBalanced(root));
+    System.out.println(p0412.isBalancedX(root));
   }
 }

@@ -31,11 +31,7 @@ public class P0413 {
     // find them in the right and left subtrees respecitvely
     if (left != null && right != null) return root;
     // find one of them in the left
-    if (left != null)
-      return left;
-    // find one of them in the right
-    else
-      return right;
+    return (left != null) ? left : right;
   }
 
   public Node buildTree() {

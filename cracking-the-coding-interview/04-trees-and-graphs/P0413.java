@@ -34,6 +34,54 @@ public class P0413 {
     return (left != null) ? left : right;
   }
 
+  private class Result {
+    Node node;
+    boolean isAncestor;
+
+    public Result(Node node, boolean isAncestor) {
+      this.node = node;
+      this.isAncestor = isAncestor;
+    }
+  }
+
+
+  public Node LCA2(Node root, Node p, Node q) {
+    if (p == null || q == null || root == null)
+      return null;
+
+    Result result = LCA2Helper(root, p, q);
+    if (result.isAncestor)
+      return result.node;
+    else
+      return null;
+  }
+
+  public Result LCA2Helper(Node root, Node p, Node q) {
+    if (root == null)
+      return new Result(null, false);
+
+    Result rleft = LCA2Helper(root.left, p, q);
+    if (rleft.isAncestor)
+      return rleft;
+    Result rright = LCA2Helper(root.right, p, q);
+    if (rright.isAncestor)
+      return rright;
+
+    // we set isAncestor to true only when we find both the nodes in the tree
+    if (rleft.node != null && rright.node != null)
+      return new Result(root, true);
+    
+    if (root == p || root == q) {
+      if (rleft.node != null || rleft.node != null)
+        return new Result(root, true);
+      else
+        return new Result(root, false);
+    }
+
+    return new Result(rleft.node != null ? rleft.node : rright.node, false);
+  }
+
+
   public Node buildTree() {
     Node root = new Node(1);
     root.left = new Node(2);

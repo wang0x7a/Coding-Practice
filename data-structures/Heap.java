@@ -39,7 +39,8 @@ public class Heap {
 
   public void insert(int value) {
     if (pq.size >= pq.capacity) {
-      System.out.println("Reaches the capacity of the heap: should less than " + pq.capacity);
+      System.out.println("Reaches the capacity of the heap: should less than "
+          + pq.capacity);
       return;
     }
 
@@ -78,6 +79,8 @@ public class Heap {
       int right = i * 2 + 1;
       int tmp = left;
 
+      // we need to exhausitively list all conditions, otherwise,
+      // the routine will fall into infinite loop
       if (pq.elements[i] < pq.elements[left]) {
         if (right > pq.size || pq.elements[i] < pq.elements[right]) return;
       }
@@ -86,8 +89,8 @@ public class Heap {
       //  break;
 
 
-      // when comparing among three or more elements, we need to fix the index of
-      // one of them
+      // when comparing among three or more elements, we need to fix 
+      // the index of one of them
       if (pq.elements[i] > pq.elements[left]) {
         pq.elements[i] = pq.elements[left];
         // wrong:

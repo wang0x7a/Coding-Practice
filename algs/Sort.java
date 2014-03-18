@@ -3,13 +3,39 @@
  * 2) heap sort
  * 3) merge sort
  * 4) quick sort
- * 5) etc.
+ * 5) insertion sort
+ * 6) etc.
  * */
 
 public class Sort {
+  /* Shell sort:
+   * There are two main loops in shell sort:
+   * 1) the loop of decreasing the increament h_k to 1
+   * 2) apply insertion sort to h_k-sort
+   * */
   public static void shell(int[] a) {
     int i, j;
     int inc;
+
+    int len = a.length;
+    // We use Shell's increaments here
+    for (inc = len / 2; inc > 0; inc /= 2) {
+      // recall insertion sort, the sorting begins with the 2nd element
+      // in a sequence. Here, we start from a[inc], which is the 2nd element
+      // in a h_k sequence. Moreover, we need to touch every element of 
+      // the array.
+      for (i = inc; i < len; i++) {
+        // tmp is the element we want to insert into its precedents
+        int tmp = a[i];
+        for (j = i; j >= inc; j -= inc) {
+          if (tmp < a[j - inc])
+            a[j] = a[j - inc];
+          else
+            break;
+        } // loop of scanning a h_k sequence
+        a[j] = tmp;
+      }
+    } // loop of running through increaments sequence
   }
 
   public static void heap(int[] a) {}
@@ -18,6 +44,10 @@ public class Sort {
   
   public static void quick(int[] a) {}
 
+  /* Insertion sort:
+   * picks up the current element, and inserts it into its precedents 
+   * from the end.
+   * */
   public static void insertion(int[] a) {
     int tmp;
 
@@ -52,7 +82,7 @@ public class Sort {
   public static void main(String[] args) {
     int[] a = {2, 10, 6, 1, 4, 3, 11, 8, 7, 9};
 
-    Sort.insertion(a);
+    Sort.shell(a);
     Sort.print(a);
   }
 }

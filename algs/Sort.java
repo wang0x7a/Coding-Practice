@@ -7,5 +7,13 @@
  * */
 
 public class Sort {
+  public static void shell(int[] a) {}
 
+  public static void heap(int[] a) {}
+
+  public static void merge(int[] a) {}
+  
+  public static void quick(int[] a) {}
+
+  public static void main(String[] args) {}
 }

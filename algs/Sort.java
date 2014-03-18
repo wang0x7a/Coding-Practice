@@ -38,9 +38,14 @@ public class Sort {
     } // loop of running through increaments sequence
   }
 
+  /* Heap sort:
+   * Please reference to the solution to the problem of finding the top M
+   * elements in a N-list.
+   * */
   public static void heap(int[] a) {}
 
-  public static void merge(int[] a) {}
+  public static void merge(int[] a) {
+  }
   
   public static void quick(int[] a) {}
 

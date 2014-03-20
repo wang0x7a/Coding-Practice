@@ -45,6 +45,44 @@ public class Sort {
   public static void heap(int[] a) {}
 
   public static void merge(int[] a) {
+    int len = a.length;
+    int[] tmp = new int[len];
+
+    merge(a, tmp, 0, len - 1);
+  }
+
+  private static void merge(int[] a, int[] tmp, int left, int right) {
+    int center;
+
+    if (left < right) {
+      center = (left + right) / 2;
+      merge(a, tmp, left, center);
+      merge(a, tmp, center + 1, right);
+      merge2(a, tmp, left, center + 1, right);
+    }
+  }
+
+  private static void merge2(int[] a, int[] tmp, int leftPos, int rightPos, 
+      int rightEnd) {
+    int leftEnd, numElem, tmpPos;
+
+    leftEnd = rightPos - 1;
+    numElem = rightEnd - leftPos + 1;
+    tmpPos = leftPos;
+
+    while (leftPos <= leftEnd && rightPos <= rightEnd)
+      if (a[leftPos] <= a[rightPos])
+        tmp[tmpPos++] = a[leftPos++];
+      else
+        tmp[tmpPos++] = a[rightPos++];
+
+    while (leftPos <= leftEnd)
+      tmp[tmpPos++] = a[leftPos++];
+    while (rightPos <= rightEnd)
+      tmp[tmpPos++] = a[rightPos++];
+
+    for (int i = 0; i < numElem; i++, rightEnd--)
+      a[rightEnd] = tmp[rightEnd];
   }
   
   public static void quick(int[] a) {}
@@ -87,7 +125,8 @@ public class Sort {
   public static void main(String[] args) {
     int[] a = {2, 10, 6, 1, 4, 3, 11, 8, 7, 9};
 
-    Sort.shell(a);
+    //Sort.shell(a);
+    Sort.merge(a);
     Sort.print(a);
   }
 }

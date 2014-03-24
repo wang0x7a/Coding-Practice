@@ -97,6 +97,8 @@ public class Sort {
 
     if (left + cutoff <= right) {
       pivot = median3(a, left, right);
+      // wrong:
+      //i = left; j = right - 1;
       i = left; j = right;
       for (; ;) {
         while (a[++i] < pivot) {}
@@ -182,7 +184,8 @@ public class Sort {
   }
 
   public static void main(String[] args) {
-    int[] a = {2, 10, 6, 1, 4, 3, 11, 8, 7, 9, 3};
+    int[] a = {2, 10, 6, 1, 15, 3, 11, 8, 7, 9};
+    //int[] a = {2, 10, 6, 1, 4, 3, 11, 8, 7, 9};
 
     Sort.print(a);
     //Sort.insertion(a);

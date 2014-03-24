@@ -85,7 +85,34 @@ public class Sort {
       a[rightEnd] = tmp[rightEnd];
   }
   
-  public static void quick(int[] a) {}
+  public static int cutoff = 3;
+
+  public static void quick(int[] a) {
+    quick(a, 0, a.length - 1);
+  }
+
+  private static void quick(int[] a, int left, int right) {
+    int i, j;
+    int pivot;
+
+    if (left + cutoff <= right) {
+      pivot = median3(a, left, right);
+      i = left; j = right - 1;
+      for (; ;) {
+        while (a[++i] < pivot) {}
+        while (a[--j] < pivot) {}
+        if (i < j)
+          swap(a, i, j);
+        else
+          break;
+      }
+      swap(a, i, right);
+      quick(a, left, i - 1);
+      quick(a, i + 1, right);
+    }
+    else
+      insertion(a, left, right);
+  }
 
   private static void swap(int[] a, int i, int j) {
     int len = a.length;
@@ -123,10 +150,13 @@ public class Sort {
    * from the end.
    * */
   public static void insertion(int[] a) {
+    insertion(a, 0, a.length - 1);
+  }
+
+  public static void insertion(int[] a, int start, int end) {
     int tmp;
 
-    int len = a.length;
-    for (int p = 1; p < len; p++) {
+    for (int p = start + 1; p <= end ; p++) {
       // tmp is the element that we want to sort
       tmp = a[p];
       
@@ -155,8 +185,10 @@ public class Sort {
     int[] a = {2, 10, 6, 1, 4, 3, 11, 8, 7, 9};
 
     Sort.print(a);
+    //Sort.insertion(a);
     //Sort.shell(a);
     //Sort.merge(a);
+    Sort.quick(a);
     Sort.print(a);
   }
 }

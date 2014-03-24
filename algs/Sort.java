@@ -87,6 +87,37 @@ public class Sort {
   
   public static void quick(int[] a) {}
 
+  private static void swap(int[] a, int i, int j) {
+    int len = a.length;
+
+    if (i >= len || j >= len) {
+      System.out.println("Out of index");
+      return;
+    }
+
+    int tmp = a[i];
+    a[i] = a[j];
+    a[j] = tmp;
+
+    return;
+  }
+
+  private static int median3(int[] a, int left, int right) {
+    int centre = (left + right) / 2;
+
+    if (a[left] > a[centre])
+      swap(a, left, centre);
+    if(a[left] > a[right])
+      swap(a, left, right);
+    if(a[centre] > a[right])
+      swap(a, centre, right);
+
+    /* Invariant: a[left] <= a[centre] <= a[right]*/
+
+    swap(a, centre, right);
+    return a[right];
+  }
+
   /* Insertion sort:
    * picks up the current element, and inserts it into its precedents 
    * from the end.
@@ -118,15 +149,14 @@ public class Sort {
       System.out.print(a[i] + " ");
 
     System.out.println();
-
-
   }
 
   public static void main(String[] args) {
     int[] a = {2, 10, 6, 1, 4, 3, 11, 8, 7, 9};
 
+    Sort.print(a);
     //Sort.shell(a);
-    Sort.merge(a);
+    //Sort.merge(a);
     Sort.print(a);
   }
 }

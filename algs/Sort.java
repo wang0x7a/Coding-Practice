@@ -97,9 +97,8 @@ public class Sort {
 
     if (left + cutoff <= right) {
       pivot = median3(a, left, right);
-      // wrong:
-      //i = left; j = right - 1;
-      i = left; j = right;
+      i = left; j = right - 1;
+      //i = left; j = right;
       for (; ;) {
         while (a[++i] < pivot) {}
         while (a[--j] > pivot) {}
@@ -108,7 +107,7 @@ public class Sort {
         else
           break;
       }
-      swap(a, i, right);
+      swap(a, i, right - 1);
       quick(a, left, i - 1);
       quick(a, i + 1, right);
     }
@@ -143,8 +142,10 @@ public class Sort {
 
     /* Invariant: a[left] <= a[centre] <= a[right]*/
 
-    swap(a, centre, right);
-    return a[right];
+    // make use of the invariant above
+    swap(a, centre, right - 1);
+    //swap(a, centre, right);
+    return a[right - 1];
   }
 
   /* Insertion sort:

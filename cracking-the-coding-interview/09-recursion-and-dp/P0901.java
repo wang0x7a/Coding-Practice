@@ -5,7 +5,7 @@
  * */
 
 public class P0901 {
-  public static int countWays(int n) {
+  public static long countWays(int n) {
     if (n == 0)
       return 1;
     if (n < 0)
@@ -15,8 +15,9 @@ public class P0901 {
 
   }
 
-  public static int countWaysDP(int n) {
-    int[] record = new int[n + 1];
+  public static long countWaysDP(int n) {
+    long[] record = new long[n + 1];
+
     for (int i = 0; i < n + 1; i++)
       record[i] = -1;
     record[0] = 0;
@@ -24,7 +25,7 @@ public class P0901 {
     return countWaysDPHelper(n, record);
   }
 
-  private static int countWaysDPHelper(int n, int[] record) {
+  private static long countWaysDPHelper(int n, long[] record) {
     if (n < 0)
       return 0;
 
@@ -43,8 +44,10 @@ public class P0901 {
   }
 
   public static void main(String[] args) {
-    //int res = P0901.countWays(3);
-    int res = P0901.countWaysDP(3);
+    // n = 37
+    int n = Integer.parseInt(args[0]);
+    long res = P0901.countWays(n);
+    //long res = P0901.countWaysDP(n);
 
     System.out.println(res);
   }

@@ -15,8 +15,36 @@ public class P0901 {
 
   }
 
+  public static int countWaysDP(int n) {
+    int[] record = new int[n + 1];
+    for (int i = 0; i < n + 1; i++)
+      record[i] = -1;
+    record[0] = 0;
+
+    return countWaysDPHelper(n, record);
+  }
+
+  private static int countWaysDPHelper(int n, int[] record) {
+    if (n < 0)
+      return 0;
+
+    if (n == 0)
+      return 1;
+
+    if (record[n] > 0)
+      return record[n];
+
+    record[n] = countWaysDPHelper(n - 1, record)
+              + countWaysDPHelper(n - 2, record)
+              + countWaysDPHelper(n - 3, record);
+
+    return record[n];
+
+  }
+
   public static void main(String[] args) {
-    int res = P0901.countWays(3);
+    //int res = P0901.countWays(3);
+    int res = P0901.countWaysDP(3);
 
     System.out.println(res);
   }

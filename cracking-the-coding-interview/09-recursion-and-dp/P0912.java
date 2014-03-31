@@ -17,10 +17,9 @@
  *  If we fix s1, and process s2:
  *
  *  substitution (/) : r[i - 1][j - 1] -> r[i][j]
- *  insertion: r[i - 1][j] -> r[i][j]
- *  keep s1[j], but insert one char before s2[i], so for s2, the next
- *  comparison still in s2[i].
- *  deletion () :
+ *  insertion (--)   : r[i][j - 1] -> r[i][j]  (keep s2[i], insert one char
+ *                                              before s2[i])
+ *  deletion (|)     : r[i - 1][j] -> r[i][j]  (keep s1[j], move s2[i] forward)
  * */
 
 public class P0912 {
@@ -40,7 +39,42 @@ public class P0912 {
   private static void editDistHelper(String s1, String s2, int[][] r,
       int[][] s) {
 
+    int n = r.length;
+    System.out.println("n: " + n);
+    int m = r[0].length;
+    System.out.println("m: " + m);
+
+    for (int i = 1; i < n; i++) {    // index of s1
+      for (int j = 1; j < m; j++) {  // index of s2
+        if (s2.charAt(j - 1) == s1.charAt(i - 1))
+          r[i][j] = r[i - 1][j - 1];
+        else {
+          int sub = r[i - 1][j - 1] + 1;
+          int ins = r[i][j - 1] + 1;
+          int del = r[i - 1][j] + 1;
+
+          r[i][j] = min3(sub, ins, del);
+        }
+      }
+    }
   }
 
-  public static void main(String[] args) {}
+  private static int min3(int a, int b, int c) {
+    int res = a;
+
+    if (res > b)
+      res = b;
+    if (res > c)
+      res = c;
+
+    return res;
+  }
+
+  public static void main(String[] args) {
+    String s1 = "saturday";
+    String s2 = "sunday";
+
+    int res = P0912.editDist(s1, s2);
+    System.out.println(res);
+  }
 }

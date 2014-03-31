@@ -29,6 +29,12 @@ public class P0912 {
 
     // by default, r[0][] = 0, r[][0] = 0
     int[][] r = new int[n + 1][m + 1];
+    for (int i = 1; i <= n; i++)
+      r[i][0] = i;
+    for (int j = 1; j <= m; j++)
+      r[0][j] = j;
+      
+
     int[][] s = new int[n + 1][m + 1];
     
     editDistHelper(s1, s2, r, s);

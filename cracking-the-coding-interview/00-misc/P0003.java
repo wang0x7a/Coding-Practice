@@ -3,19 +3,28 @@
  * */
 
 public class P0003 {
-  public static int lcs(String s1, String s2) {
+  private class Result {
+    int maxLen;
+    int i;
+    int j;
+  }
+
+  public int lcs(String s1, String s2) {
     int n = s1.length();
     int m = s2.length();
 
     int[][] r = new int[n + 1][m + 1];
-    int[][] s = new int[n + 1][m + 1];
 
-    int res = lcsHelper(s1, s2, r, s);
-    return res;
+    Result res = lcsHelper(s1, s2, r);
+    for (int i = 0; i < res.maxLen; i++)
+      System.out.print(s1.charAt(res.i + i));
+    System.out.println();
+
+    return res.maxLen;
   }
 
-  private static int lcsHelper(String s1, String s2, int[][] r, int[][] s) {
-    int res = 0;
+  private Result lcsHelper(String s1, String s2, int[][] r) {
+    Result res = new Result();
 
     int n = r.length;
     int m = r[0].length;
@@ -25,8 +34,12 @@ public class P0003 {
         if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
           r[i][j] = r[i - 1][j - 1] + 1;
 
-          if (r[i][j] > res)
-            res = r[i][j];
+          if (r[i][j] > res.maxLen) {
+            res.maxLen = r[i][j];
+            // record the start of the LCS
+            res.i = i - r[i][j];
+            res.j = j - r[i][j];
+          }
         }
         else {
           r[i][j] = 0;
@@ -38,10 +51,12 @@ public class P0003 {
   }
 
   public static void main(String[] args) {
+    P0003 p0003 = new P0003();
+
     String s1 = "satrday";
     String s2 = "sunday";
 
-    int res = P0003.lcs(s1, s2);
+    int res = p0003.lcs(s1, s2);
     System.out.println(res);
   }
 }

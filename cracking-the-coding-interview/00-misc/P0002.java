@@ -26,8 +26,6 @@ public class P0002 {
         int a = Integer.valueOf(stack.pop());
         int b = Integer.valueOf(stack.pop());
         
-        System.out.println(index);
-
         switch (index) {
           case 0:
             res = b + a;
@@ -40,6 +38,9 @@ public class P0002 {
             break;
           case 3:
             res = b / a;
+            // we need to put a break after each case, otherwise, after the
+            // case, it will jump to the next adjacent case (or default)
+            break;
           default:
             res = Integer.MIN_VALUE;
             break;

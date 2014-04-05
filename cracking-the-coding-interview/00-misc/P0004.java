@@ -89,11 +89,14 @@ public class P0004 {
 
     int len = str.length();
     int[][] r = new int[len][len];
-    for (int i = 0, j = 1; i < len - 1; i++) {
+    for (int i = 0, j = 1; i < len - 1; i++, j++) {
       r[i][i] = 1;
 
-      if (str.charAt(i) == str.charAt(j))
+      if (str.charAt(i) == str.charAt(j)) {
         r[i][j] = 1;
+        start = i;
+        end = j;
+      }
     }
     r[len - 1][len - 1] = 1;
 
@@ -117,7 +120,7 @@ public class P0004 {
   }
 
   public static void main(String[] args) {
-    String[] strs = {"abccba", "a", "abcdba", "abdb", "abababa"};
+    String[] strs = {"abccba", "a", "abcdba", "abdb", "abababa", "aa"};
 
     for (String s : strs) {
       int len = s.length();

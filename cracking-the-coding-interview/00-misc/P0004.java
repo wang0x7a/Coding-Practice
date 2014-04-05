@@ -83,6 +83,39 @@ public class P0004 {
     return max;
   }
 
+  public static String lpsDP2(String str) {
+    String res = null;
+    int start = 0, end = 0;
+
+    int len = str.length();
+    int[][] r = new int[len][len];
+    for (int i = 0, j = 1; i < len - 1; i++) {
+      r[i][i] = 1;
+
+      if (str.charAt(i) == str.charAt(j))
+        r[i][j] = 1;
+    }
+    r[len - 1][len - 1] = 1;
+
+    for (int i = 2; i < len; i++) {
+      for (int j = 0; j < i - 1; j++) {
+        if (str.charAt(i) == str.charAt(j) && r[j + 1][i - 1] == 1) {
+          r[j][i] = 1;
+
+          if (i - j > end - start) {
+            start = j;
+            end = i;
+          }
+        }
+      }
+    }
+
+    if (start != end)
+      res = str.substring(start, end + 1);
+
+    return res;
+  }
+
   public static void main(String[] args) {
     String[] strs = {"abccba", "a", "abcdba", "abdb", "abababa"};
 
@@ -91,7 +124,7 @@ public class P0004 {
 
       //System.out.println(s + ": " + isPalindromicX(0, len - 1, s));
       System.out.println(s + ": " + lpsRec(s));
-      System.out.println(s + ": " + lpsDP(s));
+      System.out.println(s + ": " + lpsDP2(s));
     }
   }
 }

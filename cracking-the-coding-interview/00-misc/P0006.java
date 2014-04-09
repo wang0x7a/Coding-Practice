@@ -46,11 +46,11 @@ public class P0006 {
     int[] level = new int[2];
     int i = res % 2; 
     // i = 0;
-    // i is the index of the level that we are dequeuing
+    // i is the index of the level in which we are dequeuing
     level[i] = 1;
     int j = (i + 1) % 2;
     // j = 1;
-    // j is the index of the level we are queuing
+    // j is the index of the level where we are enqueuing
 
     while (queue.size() > 0) {
       String current = queue.poll();

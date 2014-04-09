@@ -22,6 +22,11 @@ public class P0005 {
 
       boolean isMatch = false;
       for (String word : dict) {
+        // if we only need to find one optimal solution, we don't have to
+        // iterate the whole dict.
+        if (isMatch)
+          break;
+
         int wordLen = word.length();
         start = end - wordLen + 1;
 

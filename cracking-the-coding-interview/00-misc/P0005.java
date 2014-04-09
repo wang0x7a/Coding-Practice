@@ -12,10 +12,12 @@ public class P0005 {
     boolean res = false;
 
     int len = s.length();
-    boolean[] r = new boolean[len];
+    boolean[] r = new boolean[len + 1];
+    // set a sentinel to avoid comparing start to 0.
+    r[0] = true;
 
     int start, end;
-    for (int i = 0; i < len; i++) {
+    for (int i = 1; i <= len; i++) {
       end = i;
 
       boolean isMatch = false;
@@ -23,24 +25,21 @@ public class P0005 {
         int wordLen = word.length();
         start = end - wordLen + 1;
 
-        if (start < 0) {
+        if (start <= 0) {
           isMatch = isMatch || false;
           continue;
         }
 
-        String sub = s.substring(start, end + 1);
+        String sub = s.substring(start - 1, end);
         boolean cmp = sub.equals(word);
-        if (start == 0)
-          isMatch = isMatch || cmp; 
-        else
-          isMatch = isMatch || (r[start - 1] && cmp);
+        isMatch = isMatch || (r[start - 1] && cmp);
       }
 
       r[i] = isMatch;
 
     }
 
-    res = r[len - 1];
+    res = r[len];
 
     return res;
   }
@@ -49,6 +48,7 @@ public class P0005 {
     String s = "leetcode";
     //String[] dict = {"leet", "code"};
     String[] dict = {"code", "leet"};
+    //String[] dict = {"cod", "leet"};
 
     boolean res = P0005.wordBreak(s, dict);
     System.out.println(res);

@@ -12,7 +12,8 @@
 import java.util.ArrayList;
 
 public class P0009 {
-    public ArrayList<Interval> insert(ArrayList<Interval> intervals, Interval ins) {
+    public ArrayList<Interval> insert(ArrayList<Interval> intervals, 
+            Interval ins) {
         ArrayList<Interval> res = new ArrayList<Interval>();
 
         if (intervals == null || intervals.size() < 1) {
@@ -31,10 +32,9 @@ public class P0009 {
                 res.add(ins);
                 ins = curr;
             }
-            else if (curr.end >= ins.start || curr.start <= ins.end) {
+            else
                 ins = new Interval(Math.min(curr.start, ins.start),
                                    Math.max(curr.end, ins.end));
-            }
         }
         res.add(ins);
         
@@ -66,8 +66,8 @@ public class P0009 {
     }
 
     public static void main(String args[]) {
-        String[] strIntvls = {"1,3", "6,9"}; 
-        Interval ins = new Interval(2, 5);
+        String[] strIntvls = {"1,4", "6,9"}; 
+        Interval ins = new Interval(2, 3);
 
         P0009 p0009 = new P0009();
         ArrayList<Interval> intervals = p0009.makeIntervals(strIntvls);

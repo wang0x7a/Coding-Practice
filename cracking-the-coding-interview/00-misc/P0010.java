@@ -18,7 +18,8 @@ public class P0010 {
         for (int i = 1; i < len; i++) {
             for (int j = 0; j < i; j++) {
                 if (numbers[i] + numbers[j] == target)
-                    System.out.println("index1 = " + (j + 1) + ", index2 = " + (i + 1));
+                    System.out.println("index1 = " + (j + 1) + 
+                            ", index2 = " + (i + 1));
             }
         }
     }

@@ -16,9 +16,9 @@ public class P0013 {
 
         int i = m - 1, j = n - 1;
         for (int k = len - 1; k >= 0; k--) {
-            if (i > 0 && j < 0)
+            if (i >= 0 && j < 0)
                 a[k] = a[i--];
-            else if (i < 0 && j > 0)
+            else if (i < 0 && j >= 0)
                 a[k] = b[j--];
             else {
                 if (a[i] > b[j]) {
@@ -40,5 +40,16 @@ public class P0013 {
 
     public static void main(String args[]) {
         int m = 5, n = 5;
+
+        int[] tmp = {2, 5, 6, 9, 10};
+        int[] a = new int[m + n];
+        for (int i = 0; i < m; i++)
+            a[i] = tmp[i];
+
+        int[] b = {1, 7, 8, 11, 15};
+
+        P0013.merge(a, m, b, n);
+        
+        P0013.print(a, m + n);
     }
 }

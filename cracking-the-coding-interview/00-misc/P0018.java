@@ -28,7 +28,7 @@ public class P0018 {
             fast = fast.next.next;
         }
 
-        // reserve the second half
+        // reverse the second half
         slow.next = reverse(slow.next);
 
         ListNode second = slow.next;
@@ -50,7 +50,7 @@ public class P0018 {
         }
     }
 
-    /* reserve a singly linked list in place.
+    /* reverse a singly linked list in place.
      * Different from reorder method, the input arg, list, is not a head
      * */
     private static ListNode reverse(ListNode list) {

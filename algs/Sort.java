@@ -165,7 +165,7 @@ public class Sort {
       
       // compare tmp with its precedents
       int i;
-      for (i = p; i > 0; i--) {
+      for (i = p; i > start; i--) {
         if (tmp < a[i - 1])
           a[i] = a[i - 1];
         else

@@ -28,11 +28,50 @@ public class Sort2 {
     public static void heap(int[] a) {}
 
     public static void merge(int[] a) {
+        int len = a.length;
+        int[] tmp = new int[len];
+
+        merge(a, tmp, 0, a.length - 1);
     }
 
-    private static void merge(int[] a, int left, int right) {}
+    private static void merge(int[] a, int[] tmp, int left, int right) {
+        int center = (left + right) / 2;
 
-    private static void merge2(int[] a, int left, int center, int right) {}
+        if (left == center)
+            return;
+
+        merge(a, tmp, left, center);
+        merge(a, tmp, center + 1, right);
+        merge2(a, tmp, left, center, right);
+
+        return;
+    }
+
+    private static void merge2(int[] a, int[] tmp, int leftPos, int leftEnd, 
+            int rightEnd) {
+        int rightPos = leftEnd + 1;
+        int numElem  = rightEnd - leftPos + 1;
+
+        int pos = leftPos;
+        while (leftPos <= leftEnd && rightPos <= rightEnd) {
+            if (a[leftPos] < a[rightPos])
+                tmp[pos++] = a[leftPos++];
+            else
+                tmp[pos++] = a[rightPos++];
+        }
+
+        while (leftPos <= leftEnd)
+            tmp[pos++] = a[leftPos++];
+        while (rightPos <= rightEnd)
+            tmp[pos++] = a[rightPos++];
+
+        for (int i = 0; i < numElem; i++, rightEnd--)
+            // stupid mistake:
+            // a[rightEnd--] = tmp[rightEnd--];
+            a[rightEnd] = tmp[rightEnd];
+
+        return;
+    }
 
     public static void quick(int[] a) {
 
@@ -92,7 +131,8 @@ public class Sort2 {
         int[] a = {2, 10, 6, 1, 15, 3, 11, 8, 7, 9};
 
         //Sort2.insertion(a);
-        Sort2.shell(a);
+        //Sort2.shell(a);
+        Sort2.merge(a);
         Sort2.print(a);
 
     }

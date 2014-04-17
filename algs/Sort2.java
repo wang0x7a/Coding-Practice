@@ -73,12 +73,59 @@ public class Sort2 {
         return;
     }
 
-    public static void quick(int[] a) {
+    public static int cutoff = 3;
 
+    public static void quick(int[] a) {
+        int len = a.length;
+
+        quick(a, 0, len - 1);
+    }
+
+    private static void quick(int[] a, int left, int right) {
+        int i, j;
+        int pivot;
+
+        int len = right - left + 1;
+        if (len > cutoff) {
+            pivot = median3(a, left, right);
+            i = left;
+            j = right - 1;
+
+            while (true) {
+                while (a[++i] < pivot) {}
+                while (a[--j] > pivot) {}
+
+                if (i < j)
+                    swap(a, i, j);
+                else
+                    break;
+            }
+
+            swap(a, i, right - 1);
+            quick(a, left, i - 1);
+            quick(a, i + 1, right);
+        }
+        else {
+            insertion(a, left, right);
+        }
     }
 
     private static int median3(int[] a, int left, int right) {
-        return 0;
+        int center = (left + right) / 2;
+
+        // we don't have to check whether left == center, since when
+        // the length of a is smaller than cutoff, we will use insertion
+        // sort instead.
+        if (a[left] > a[center])
+            swap(a, left, center);
+        if (a[left] > a[right])
+            swap(a, left, right);
+        if (a[center] > a[right])
+            swap(a, center, right);
+
+        swap(a, center, right - 1);
+
+        return a[right - 1];
     }
 
     private static void swap(int[] a, int i, int j) {
@@ -132,7 +179,8 @@ public class Sort2 {
 
         //Sort2.insertion(a);
         //Sort2.shell(a);
-        Sort2.merge(a);
+        //Sort2.merge(a);
+        Sort2.quick(a);
         Sort2.print(a);
 
     }

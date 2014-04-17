@@ -4,11 +4,35 @@
  */
 
 public class Sort2 {
-    public static void shell(int[] a) {}
+    public static void shell(int[] a) {
+        int len = a.length;
+
+        int i, j, k;
+        int tmp;
+        for (k = len / 2; k > 0; k /= 2) {
+            for (i = k; i < len; i++) {
+                tmp = a[i];
+                for (j = i; j >= k; j -= k) {
+                    if (tmp < a[j - k])
+                        a[j] = a[j - k];
+                    else
+                        break;
+                }
+                a[j] = tmp;
+            }
+        }
+
+        return;
+    }
 
     public static void heap(int[] a) {}
 
-    public static void merge(int[] a) {}
+    public static void merge(int[] a) {
+    }
+
+    private static void merge(int[] a, int left, int right) {}
+
+    private static void merge2(int[] a, int left, int center, int right) {}
 
     public static void quick(int[] a) {
 
@@ -67,7 +91,8 @@ public class Sort2 {
     public static void main(String args[]) {
         int[] a = {2, 10, 6, 1, 15, 3, 11, 8, 7, 9};
 
-        Sort2.insertion(a);
+        //Sort2.insertion(a);
+        Sort2.shell(a);
         Sort2.print(a);
 
     }

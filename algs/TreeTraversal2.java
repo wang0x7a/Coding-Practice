@@ -91,7 +91,6 @@ public class TreeTraversal2 {
 
         Stack<TreeNode> res   = new Stack<TreeNode>();
 
-
         TreeNode p;
         while (!stack.isEmpty()) {
             p = stack.pop();

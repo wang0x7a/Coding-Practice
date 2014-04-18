@@ -10,7 +10,38 @@ import java.util.Queue;
 import java.util.LinkedList;
 
 public class TreeTraversal2 {
-    public static void InOrder(TreeNode root) {}
+    public static void InOrder(TreeNode root) {
+        if (root == null)
+            return;
+
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+
+        TreeNode p = root;
+        // the stack is empty when finishing traversing the left child of root,
+        // hence, we need to check if the right child is null, if not, entering
+        // the right child.
+        while (!stack.isEmpty() || p != null) {
+            if (p == null) {
+                p = stack.pop();
+                System.out.print(p.value + " ");
+                p = p.right;
+            }
+            else {
+                stack.push(p);
+                p = p.left;
+            }
+        }
+        
+        System.out.println();
+
+        /*
+        InOrder(root.left);
+        System.out.println(root.value);
+        InOrder(root.right);
+        */
+
+        return;
+    }
 
     public static void PreOrder(TreeNode root) {
         if (root == null)
@@ -48,8 +79,13 @@ public class TreeTraversal2 {
         root.right = new TreeNode(3);
         root.left.left = new TreeNode(4);
         root.left.right = new TreeNode(5);
+        root.left.left.left = new TreeNode(6);
+        root.left.right.right = new TreeNode(7);
+        root.left.right.left = new TreeNode(9);
+        root.right.left = new TreeNode(8);
 
         PreOrder(root);
+        InOrder(root);
     }
 }
 

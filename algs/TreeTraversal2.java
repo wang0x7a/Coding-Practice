@@ -69,9 +69,56 @@ public class TreeTraversal2 {
         PreOrder(root.left);
         PreOrder(root.right);
         */
+
+        return;
     }
 
-    public static void PostOrder(TreeNode root) {}
+    // the difficulty of iterative post-order traversal lies in we need to
+    // visit a parent (non-leaf node) three times: 
+    //
+    // 1) the first time is to push it onto the stack
+    // 2) access its right child through the parement
+    // 3) return to the parent after visiting its right child and print it.
+    //
+    // while iterative in-order and pre-order traversals only need the first 
+    // two visits.
+    public static void PostOrder(TreeNode root) {
+        if (root == null)
+            return;
+
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.push(root);
+
+        Stack<TreeNode> res   = new Stack<TreeNode>();
+
+
+        TreeNode p;
+        while (!stack.isEmpty()) {
+            p = stack.pop();
+
+            res.push(p);
+
+            if (p.left != null)
+                stack.push(p.left);
+            if (p.right != null)
+                stack.push(p.right);
+        }
+
+        while (!res.isEmpty()) {
+            p = res.pop();
+            System.out.print(p.value + " ");
+        }
+
+        /*
+        PostOrder(root.left);
+        PostOrder(root.right);
+        System.out.print(root.value + " ");
+        */
+
+        System.out.println();
+
+        return;
+    }
 
     public static void main(String args[]) {
         TreeNode root = new TreeNode(1);
@@ -86,6 +133,7 @@ public class TreeTraversal2 {
 
         PreOrder(root);
         InOrder(root);
+        PostOrder(root);
     }
 }
 

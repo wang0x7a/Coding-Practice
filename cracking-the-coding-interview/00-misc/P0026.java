@@ -40,23 +40,6 @@ public class P0026 {
             p = p.left;
 
         } while (!stack.isEmpty() || p != null);
-        //} while (p != null);
-
-        /*
-        while (!stack.isEmpty()) {
-            if (p.right != null) {
-                stack.push(p.right);
-                p.right = null;
-            }
-
-            if (p.left == null) {
-                tmp = stack.pop();
-                p.left = tmp;
-            }
-
-            p = p.left;
-        }
-        */
 
         return root;
     }

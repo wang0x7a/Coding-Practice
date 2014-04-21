@@ -32,14 +32,14 @@ public class P0026 {
                 p.right = null;
             }
 
-            if (p.left == null) {
+            if (p.left == null && !stack.isEmpty()) {
                 tmp = stack.pop();
                 p.left = tmp;
             }
 
             p = p.left;
 
-        } while (p != null || !stack.isEmpty());
+        } while (!stack.isEmpty() || p != null);
         //} while (p != null);
 
         /*

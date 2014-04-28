@@ -63,10 +63,24 @@ public class P1703 {
         return count;
     }
 
+    public static int trailingZerosXXX(int n) {
+        if (n < 5)
+            return 0;
+
+        int count = 0;
+        for (int i = 5; n / i > 0; i *= 5)
+            count += n / i;
+
+        return count;
+
+    }
+
     public static void main(String args[]) {
         int n = Integer.parseInt(args[0]);
 
         int res;
+        res = trailingZerosXXX(n);
+        System.out.println(res);
         res = trailingZerosXX(n);
         System.out.println(res);
         res = trailingZerosX(n);

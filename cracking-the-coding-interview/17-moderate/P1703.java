@@ -51,11 +51,25 @@ public class P1703 {
         return count;
     }
 
+    public static int trailingZerosXX(int n) {
+        if (n < 5)
+            return 0;
+
+        int count = 0;
+
+        for (int i = 5; i <= n; i += 5)
+            count += factorsOf5(i);
+
+        return count;
+    }
+
     public static void main(String args[]) {
         int n = Integer.parseInt(args[0]);
 
-        int res = trailingZerosX(n);
-
+        int res;
+        res = trailingZerosXX(n);
+        System.out.println(res);
+        res = trailingZerosX(n);
         System.out.println(res);
     }
 }

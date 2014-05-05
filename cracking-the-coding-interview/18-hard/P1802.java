@@ -15,7 +15,8 @@ public class P1802 {
         Random random = new Random();
 
         int last = numCards - 1;
-        for (int i = numCards, j; i > 0; i--) {
+        int j;
+        for (int i = numCards; i > 0; i--) {
             j = random.nextInt(i);
 
             System.out.print(cards[j] + " ");
@@ -29,6 +30,24 @@ public class P1802 {
         System.out.println();
     }
 
+    // shuffle in place
+    public static void shuffleX(int[] cards) {
+        Random random = new Random();
+
+        int tmp;
+        int index;
+        int last = numCards - 1;
+        for (int i = numCards; i > 0; i--) {
+            index = random.nextInt(i);
+
+            tmp = cards[last];
+            cards[last] = cards[index];
+            cards[index] = tmp;
+
+            last--;
+        }
+    }
+
     public static void main(String args[]) {
         int[] cards = new int[numCards];
 
@@ -37,8 +56,16 @@ public class P1802 {
             System.out.print(cards[i - 1] + " ");
         }
 
+        int[] copy = cards.clone();
+
         System.out.println();
 
         shuffle(cards);
+        shuffleX(copy);
+
+        for (int i = 0; i < numCards; i++)
+            System.out.print(copy[i] + " ");
+
+        System.out.println();
     }
 }

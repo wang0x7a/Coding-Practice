@@ -13,6 +13,12 @@ public class P1803 {
         if (n > len)
             return;
 
+
+        /* Since the task is only "select", we need to operate on a copy of a
+         * to avoid breaking the original data.
+         */
+        int[] copy = a.clone();
+
         Random random = new Random();
         int tmp;
         int index, last = len - 1;
@@ -20,9 +26,9 @@ public class P1803 {
         for (int i = 0; i < n; i++) {
             index = random.nextInt(count);
 
-            System.out.print(a[index] + " ");
+            System.out.print(copy[index] + " ");
 
-            a[index] = a[last];
+            copy[index] = copy[last];
 
             last--;
             count--;
@@ -39,5 +45,9 @@ public class P1803 {
         int n = Integer.parseInt(args[0]);
 
         selectN(a, n);
+
+        for (int i = 0; i < a.length; i++)
+            System.out.print(a[i] + " ");
+        System.out.println();
     }
 }

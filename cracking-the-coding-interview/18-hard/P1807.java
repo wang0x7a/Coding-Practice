@@ -20,10 +20,11 @@ public class P1807 {
         String res = null;
         int resLen = 0;
         for (int i = 0; i < len; i++) {
-            if (resLen > list[i].length())
+            if (resLen >= list[i].length())
                 continue;
 
-            boolean isCandidate = isCandidate(list, list[i]); 
+            boolean isCandidate = isCandidateX(list, list[i]); 
+            //boolean isCandidate = isCandidate(list, list[i]); 
             if (isCandidate) {
                 res = list[i];
                 resLen = res.length();
@@ -31,6 +32,30 @@ public class P1807 {
         }
 
         return res;
+    }
+
+    private static boolean isCandidateX(String[] list, String word) {
+        int wordLen = word.length();
+        boolean[] r = new boolean[wordLen + 1];
+        r[0] = true;
+
+        for (int i = 0; i < wordLen; i++) {
+            // start from the match position
+            if (!r[i])
+                continue;
+
+            for (String curr : list) {
+                int len = curr.length();
+                int end = i + len;
+                if (curr.equals(word) || end > wordLen)
+                    continue;
+
+                if (word.substring(i, end).equals(curr))
+                    r[end] = true;
+            }
+        }
+
+        return r[wordLen];
     }
 
     private static boolean isCandidate(String[] list, String word) {

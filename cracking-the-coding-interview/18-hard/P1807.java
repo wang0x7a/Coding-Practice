@@ -167,7 +167,7 @@ public class P1807 {
         System.out.println();
         */
 
-        String[] list = {"cat", "bananacat", "banana", "dog", "walk", "walker", "dogwalker"};
+        String[] list = {"cat", "bananadogcat", "banana", "dog", "walk", "walker", "dogwalker"};
 
         String res = longestWord(list);
 

@@ -68,6 +68,34 @@ public class P0401 {
       return false;
    }
 
+   // a variant of post-order traversal
+   public static int checkHeight(Node x) {
+       if (x == null)
+           return 0;
+
+       int leftHeight  = checkHeight(x.left); 
+       if (leftHeight == -1)
+           return -1;
+
+       int rightHeight = checkHeight(x.right);
+       if (rightHeight == -1)
+           return -1;
+
+       int height;
+       if (Math.abs(leftHeight - rightHeight) > 1)
+           height = -1;
+       else
+           height = 1 + Math.max(leftHeight, rightHeight);
+
+       return height;
+   }
+
+   public static boolean isBalancedXX(Node x) {
+       return checkHeight(x) == -1 ? false : true;
+   }
+
+
+
    public Node buildTree() {
       Node root = new Node(1);
       root.left = new Node(2);
@@ -87,5 +115,6 @@ public class P0401 {
       int[] height = new int[1];
       System.out.println(p0401.isBalanced2(root, height));
       System.out.println(p0401.isBalanced(root));
+      System.out.println(p0401.isBalancedXX(root));
    }
 }

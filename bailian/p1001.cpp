@@ -13,44 +13,67 @@ int main() {
   while (cin >> s >> n) {
     vector<int> number;
     int dot_idx = s.find(".");
-    int rev_dot_pos = s.size() - 1 - dot_idx;
-    string int_part = s.substr(0, dot_idx);
-    string dec_part = s.substr(dot_idx + 1, s.size() - dot_idx - 1);
-    if (int_part.compare("0") == 0)
-      s = dec_part;
-    else
-      s = int_part + dec_part;
 
-    cout << s << endl;
+    if (dot_idx == -1) {
 
-    for (int i = s.size() - 1; i >= 0; i--)
-      number.push_back(s[i] - '0');
+      for (int i = s.size() - 1; i >= 0; i--)
+        number.push_back(s[i] - '0');
 
-    number = pow_(number, n);
+      number = pow_(number, n);
 
-    int rev_dot_pos_new = rev_dot_pos * n;
-    //int dot_pos_new     = number.size() - rev_dot_pos_new - 1;
-    int dot_pos_new     = number.size() - rev_dot_pos_new;
-    int cnt = 0;
-    int i = number.size() - 1;
-    string res;
-    while (cnt < number.size() + 1) {
-      if (cnt == dot_pos_new)
-        res += ".";
-      else
-        res += number[i--];
+      for (int i = number.size() - 1; i >= 0; i--)
+        cout << number[i];
 
-      cnt++;
+      cout << endl;
+
     }
+    else {
+      int rev_dot_pos = s.size() - 1 - dot_idx;
+      string int_part = s.substr(0, dot_idx);
+      string dec_part = s.substr(dot_idx + 1, s.size() - dot_idx - 1);
+      if (int_part.compare("0") == 0)
+        s = dec_part;
+      else
+        s = int_part + dec_part;
+
+      for (int i = s.size() - 1; i >= 0; i--)
+        number.push_back(s[i] - '0');
+
+      number = pow_(number, n);
+
+      int rev_dot_pos_new = rev_dot_pos * n;
+      //int dot_pos_new     = number.size() - rev_dot_pos_new - 1;
+      if (number.size() < rev_dot_pos_new) {
+        int i = 0;
+        while (number.size() + i < rev_dot_pos_new)
+          number.push_back(0);
+      }
+      int dot_pos_new     = number.size() - rev_dot_pos_new;
+
+      int cnt = 0;
+
+      int non_zero_pos = 0;
+      while (number[non_zero_pos] == 0)
+        non_zero_pos++;
+
+      int i = number.size() - 1;
+      while (i >= non_zero_pos) {
+        if (cnt == dot_pos_new)
+          cout << ".";
+        else
+          cout << number[i--];
+
+        cnt++;
+      }
 
 
-    cout << res;
-    /*
-    for (int i = number.size() - 1; i >= 0; i--)
-      cout << number[i];
-    */
+      /*
+      for (int i = number.size() - 1; i >= 0; i--)
+        cout << number[i];
+      */
 
-    cout << endl;
+      cout << endl;
+    }
   }
 }
 
@@ -65,6 +88,9 @@ vector<int> multiply(vector<int> a, vector<int> b) {
     res[i + 1] += res[i] / 10;
     res[i] %= 10;
   }
+
+  if (res[res.size() - 1] == 0)
+    res.pop_back();
 
   while (!res.empty() && res.back() == 0)
     res.pop_back();

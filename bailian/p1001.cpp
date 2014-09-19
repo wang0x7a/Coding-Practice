@@ -6,6 +6,7 @@ string calc(string base, int expnt);
 string multiply2(string a, string b);
 int get_dot_pos(string a);
 string tail_zeros(string a);
+string postproc(string a);
 
 int main() {
   //cout << calc("9", 3) << endl;
@@ -66,7 +67,9 @@ string calc(string base, int expnt) {
   //string res = multiply2(half, half);
   //res = multiply2(res, tmp);
 
-  return multiply2(multiply2(half, half), tmp);
+  // set the row length as the value of the shorter input
+  //return multiply2(multiply2(half, half), tmp);
+  return multiply2(tmp, multiply2(half, half));
 }
 
 string multiply2(string a, string b) {
@@ -110,7 +113,7 @@ string multiply2(string a, string b) {
     tmp = 0;
   }
 
-  cout << str_arr << endl;
+  //cout << str_arr << endl;
 
   if (carry == 0)
     res = string(str_arr);

@@ -53,7 +53,7 @@ int main() {
       int cnt = 0;
 
       int non_zero_pos = 0;
-      while (number[non_zero_pos] == 0)
+      while (number[non_zero_pos] == 0 && non_zero_pos < rev_dot_pos_new)
         non_zero_pos++;
 
       int i = number.size() - 1;
@@ -75,6 +75,8 @@ int main() {
       cout << endl;
     }
   }
+
+  return 0;
 }
 
 vector<int> multiply(vector<int> a, vector<int> b) {

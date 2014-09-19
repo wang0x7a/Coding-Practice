@@ -1,127 +1,88 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-string calc(string base, int expnt);
-string multiply2(string a, string b);
-int get_dot_pos(string a);
-string tail_zeros(string a);
-string postproc(string a);
+vector<int> multply(vector<int> a, vector<int> b);
+vector<int> pow_(vector<int> base, int expnt);
 
 int main() {
-  //cout << calc("9", 3) << endl;
-  string base;
-  int expnt;
+  string s;
+  int n;
 
-  string res;
-  while (cin >> base >> expnt) {
-    int dot_pos = get_dot_pos(base);
-    
-    string int_part = base.substr(0, dot_pos);
-    string dec_part = base.substr(dot_pos + 1, base.size() - dot_pos);
+  while (cin >> s >> n) {
+    vector<int> number;
+    int dot_idx = s.find(".");
+    int rev_dot_pos = s.size() - 1 - dot_idx;
+    string int_part = s.substr(0, dot_idx);
+    string dec_part = s.substr(dot_idx + 1, s.size() - dot_idx - 1);
+    if (int_part.compare("0") == 0)
+      s = dec_part;
+    else
+      s = int_part + dec_part;
 
-    string new_base = int_part + dec_part;
+    cout << s << endl;
 
-    res = calc(new_base, expnt);
+    for (int i = s.size() - 1; i >= 0; i--)
+      number.push_back(s[i] - '0');
 
-    cout << res << endl;
+    number = pow_(number, n);
 
-    /*
-    string int_res  = calc(int_part, expnt);
-    string dec_res  = calc(dec_part, expnt);
+    int rev_dot_pos_new = rev_dot_pos * n;
+    //int dot_pos_new     = number.size() - rev_dot_pos_new - 1;
+    int dot_pos_new     = number.size() - rev_dot_pos_new;
+    int cnt = 0;
+    int i = number.size() - 1;
+    string res;
+    while (cnt < number.size() + 1) {
+      if (cnt == dot_pos_new)
+        res += ".";
+      else
+        res += number[i--];
 
-    dec_res = tail_zeros(dec_res);
-
-    cout << int_res + "." + dec_res << endl;
-    */
-  }
-}
-
-string tail_zeros(string a) {
-  int len = a.size();
-
-  int i;
-  for (i = len - 1; i >= 0; i++)
-    if (a[i] != '0')
-      break;
-
-  return a.substr(0, i + 1);
-}
-
-int get_dot_pos(string a) {
-  for (int i = 0; i < a.size(); i++)
-    if (a[i] == '.')
-      return i;
-
-  return -1;
-}
-
-string calc(string base, int expnt) {
-  if (expnt == 1 || base.compare("0") == 0)
-    return base;
-
-  string tmp = expnt % 2 == 0 ? "1" : base;
-
-  string half = calc(base, expnt / 2);
-
-  //string res = multiply2(half, half);
-  //res = multiply2(res, tmp);
-
-  // set the row length as the value of the shorter input
-  //return multiply2(multiply2(half, half), tmp);
-  return multiply2(tmp, multiply2(half, half));
-}
-
-string multiply2(string a, string b) {
-  string res;
-  int len_a = a.size();
-  int len_b = b.size();
-
-  int row = len_a;
-  int col = len_a + len_b - 1;
-
-  int **m;
-  m = new int*[row];
-  // init each row and compute the value of each cell
-  for (int i = 0; i < row; i++) {
-    m[i] = new int[col];
-
-    for (int j = 0; j < len_b; j++) {
-      m[i][i + j] = (a[i] - '0') * (b[j] - '0');
+      cnt++;
     }
-  }
 
-  /*
-  for (int i = 0; i < row; i++) {
-    for (int j = 0; j < col; j++)
-      cout << m[i][j];
+
+    cout << res;
+    /*
+    for (int i = number.size() - 1; i >= 0; i--)
+      cout << number[i];
+    */
 
     cout << endl;
   }
-  */
+}
 
-  int carry = 0;
-  char *str_arr = new char[col];
-  int tmp = 0;
-  for (int j = col - 1; j >= 0; j--) {
-    tmp += carry;
-    for (int i = 0; i < row; i++)
-      tmp += m[i][j];
+vector<int> multiply(vector<int> a, vector<int> b) {
+  vector<int> res(a.size() + b.size(), 0);
 
-    carry = tmp / 10;
-    str_arr[j] = tmp % 10 + '0';
-    tmp = 0;
+  for (int i = 0; i < a.size(); i++)
+    for (int j = 0; j < b.size(); j++)
+      res[i + j] += a[i] * b[j];
+
+  for (int i = 0; i < res.size() - 1; i++) {
+    res[i + 1] += res[i] / 10;
+    res[i] %= 10;
   }
 
-  //cout << str_arr << endl;
+  while (!res.empty() && res.back() == 0)
+    res.pop_back();
 
-  if (carry == 0)
-    res = string(str_arr);
-  else
-    res = to_string(carry) + string(str_arr);
+  if (res.empty())
+    res.push_back(0);
 
-  delete m;
-  delete str_arr;
+  return res;
+}
+
+vector<int> pow_(vector<int> base, int expnt) {
+  vector<int> res = vector<int>(1, 1);
+
+  while (expnt) {
+    if (expnt & 1) res = multiply(res, base);
+    base = multiply(base, base);
+    expnt >>= 1;
+  }
 
   return res;
 }

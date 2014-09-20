@@ -6,60 +6,79 @@
 
 using namespace std;
 
-string translate(string s);
+int translate(string s);
+void print(int elem, int cnt);
 
-int main() {
-  int line_num;
-  string s;
-
-  cin >> line_num;
-
-  map<string, int> hmap;
-  vector<string> a;
-  for (int i = 0; i < line_num; i++) {
-    cin >> s;
-
-    string trans = translate(s);
-    a.push_back(trans);
-
-    hmap[trans] += 1;
-  }
-
-  sort(a.begin(), a.begin() + a.size());
-
-  int cnt = 0;
-  for (int i = 0; i < a.size(); i++) {
-    string key = a[i];
-
-    /*
-    if (hmap[key] > 0) {
-      cout << key.substr(0, 3) << "-" << key.substr(3, a.size() - 4) << " "; 
-      if (hmap[key] == 1)
-        cout << "No duplicates." << endl;
-      else
-        cout << hmap[key] << endl;
-
-      hmap[key] = -1;
-    }
-    */
-
-    if (hmap[key] > 1) {
-      cout << key.substr(0, 3) << "-" << key.substr(3, a.size() - 4) << " "
-        << hmap[key] << endl;
-      
-      cnt++;
-
-      hmap[key] = -1;
-    }
-  }
-
-  if (cnt == 0)
-    cout << "No duplicates." << endl;
+bool cmp(int a, int b) {
+  return a < b;
 }
 
-string translate(string s) {
-  string res;
-  vector<char> tmp;
+int main() {
+  int tel_num;
+  string s;
+
+  cin >> tel_num;
+
+  //int *a = new int[tel_num];
+  int a[tel_num];
+
+  for (int i = 0; i < tel_num; i++) {
+    cin >> s;
+
+    a[i] = translate(s);
+  }
+
+  sort(a, a + tel_num, cmp);
+
+  int valid_cnt = 0, elem_cnt = 1;
+  int curr = 0, prev = 0;
+  for (int i = 1; i < tel_num ; i++) {
+    curr = a[i];
+    prev = a[i - 1];
+
+    if (curr != prev) {
+      if (elem_cnt > 1) {
+        print(prev, elem_cnt);
+        elem_cnt = 1;
+        valid_cnt++;
+      }
+    }
+    else
+      elem_cnt++;
+  }
+
+  if (elem_cnt > 1) {
+    print(curr, elem_cnt);
+    valid_cnt++;
+  }
+
+  if (valid_cnt == 0)
+    cout << "No duplicates." << endl;
+
+}
+
+void print(int elem, int cnt) {
+  //cout << elem / 10000 << "-" << elem % 10000 << " " << cnt << endl;
+  int i = 1;
+  int base = 1000000;
+  while (base) {
+    if (i == 4)
+      cout << "-";
+
+    i++;
+
+    cout << elem / base;
+    elem %= base;
+    base /= 10;
+  }
+
+  cout << " " << cnt << endl;
+
+  return;
+}
+
+int translate(string s) {
+  int res = 0;
 
   for (int i = 0; i < s.size(); i++) {
     int d = 0;
@@ -79,17 +98,7 @@ string translate(string s) {
     else
       continue;
 
-    tmp.push_back(d + '0');
-  }
-
-  int cnt = 1, i = 0;
-  while (i < tmp.size()) {
-    //if (cnt == 4)
-    //  res += "-";
-
-    res += tmp[i++];
-
-    cnt++;
+    res = res * 10 + d;
   }
 
   return res;

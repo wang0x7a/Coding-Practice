@@ -1,0 +1,96 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+string translate(string s);
+
+int main() {
+  int line_num;
+  string s;
+
+  cin >> line_num;
+
+  map<string, int> hmap;
+  vector<string> a;
+  for (int i = 0; i < line_num; i++) {
+    cin >> s;
+
+    string trans = translate(s);
+    a.push_back(trans);
+
+    hmap[trans] += 1;
+  }
+
+  sort(a.begin(), a.begin() + a.size());
+
+  int cnt = 0;
+  for (int i = 0; i < a.size(); i++) {
+    string key = a[i];
+
+    /*
+    if (hmap[key] > 0) {
+      cout << key.substr(0, 3) << "-" << key.substr(3, a.size() - 4) << " "; 
+      if (hmap[key] == 1)
+        cout << "No duplicates." << endl;
+      else
+        cout << hmap[key] << endl;
+
+      hmap[key] = -1;
+    }
+    */
+
+    if (hmap[key] > 1) {
+      cout << key.substr(0, 3) << "-" << key.substr(3, a.size() - 4) << " "
+        << hmap[key] << endl;
+      
+      cnt++;
+
+      hmap[key] = -1;
+    }
+  }
+
+  if (cnt == 0)
+    cout << "No duplicates." << endl;
+}
+
+string translate(string s) {
+  string res;
+  vector<char> tmp;
+
+  for (int i = 0; i < s.size(); i++) {
+    int d = 0;
+
+    if ((s[i] >= 'A' && s[i] <= 'P') || (s[i] >= 'a' && s[i] <= 'p')) {
+      s[i] = toupper(s[i]);
+
+      d = (s[i] - 'A') / 3 + 2;
+    }
+    else if ((s[i] >= 'R' && s[i] <= 'Y') || (s[i] >= 'r' && s[i] <= 'y')) {
+      s[i] = toupper(s[i]);
+
+      d = (s[i] - 'A' - 1) / 3 + 2;
+    }
+    else if (s[i] >= '0' && s[i] <= '9')
+      d = s[i] - '0';
+    else
+      continue;
+
+    tmp.push_back(d + '0');
+  }
+
+  int cnt = 1, i = 0;
+  while (i < tmp.size()) {
+    //if (cnt == 4)
+    //  res += "-";
+
+    res += tmp[i++];
+
+    cnt++;
+  }
+
+  return res;
+}

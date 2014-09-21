@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 
 #define MAX_CARD_NUM 280
 
@@ -12,18 +11,15 @@ int main() {
     if (l == 0.00)
       break;
 
-    float acc = 0.0, prev = 0.0;
+    float acc = 0.0;
     for (int i = 2; i <= MAX_CARD_NUM; i++) {
       acc += 1.0 / i;
 
-      if (acc >= l && prev < l) {
-        cout << i - ceil(acc - l) << " card(s)" << endl; 
+      if (acc > l) {
+        cout << i - 1 << " card(s)" << endl; 
         acc = 0.0;
-        prev = 0.0;
         break;
       }
-
-      prev = acc;
     }
   }
 }

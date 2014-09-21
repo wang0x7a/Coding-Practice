@@ -16,6 +16,8 @@ int main() {
       acc += 1.0 / i;
 
       if (acc > l) {
+        // since the length of the input is only 3, while the length of acc
+        // would always be longer that 3, it is very unlikely that acc == l
         cout << i - 1 << " card(s)" << endl; 
         acc = 0.0;
         break;

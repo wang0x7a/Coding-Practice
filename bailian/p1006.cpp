@@ -25,25 +25,11 @@ int main() {
   int cnt = 1;
   while (cin >> p >> e >> i >> d) {
     if (p == -1 && e == -1 && i == -1 && d == -1)
-      //break;
-      return 0;
+      break;
     
-    //int res_p = res_on_today(p, PHY_PERIOD, d);
-    //int res_e = res_on_today(e, EMO_PERIOD, d);
-    int res_i = res_on_today(i, INT_PERIOD, d);
-    int new_day = d + (INT_PERIOD - res_i);
-    int res_p = res_on_today(p, PHY_PERIOD, new_day);
-    int res_e = res_on_today(e, EMO_PERIOD, new_day);
-    //p = res_on_today(p, PHY_PERIOD, new_day);
-    //e = res_on_today(e, EMO_PERIOD, new_day);
-    //i = res_on_today(i, INT_PERIOD, new_day);
+    i = res_on_today(i, INT_PERIOD, d);
+    int acc = d + (INT_PERIOD - i);
 
-    int acc = new_day;
-    //while (acc % EMO_PERIOD != (EMO_PERIOD - e) 
-    //    || acc % PHY_PERIOD != (PHY_PERIOD - p))
-    //while ((acc - d) % INT_PERIOD != 0 || (acc - d) % EMO_PERIOD != 0)
-    //while (res_on_today(p, PHY_PERIOD, acc) != res_p 
-    //    || res_on_today(e, EMO_PERIOD, acc) != res_e)
     while ((acc - p) % PHY_PERIOD != 0 || (acc - e) % EMO_PERIOD != 0)
       acc += INT_PERIOD;
 

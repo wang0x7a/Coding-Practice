@@ -54,7 +54,7 @@ class Dna {
         if (dna_copy[left_pos] <= dna_copy[right_pos])
           tmp[pos++] = dna_copy[left_pos++];
         else {
-          res = (left_end - left_pos + 1);
+          res += (left_end - left_pos + 1);
           tmp[pos++] = dna_copy[right_pos++];
         }
       }
@@ -99,6 +99,6 @@ int main() {
   sort(a, a + num, cmp);
 
   for (int i = 0; i < num; i++)
-    cout << a[i].dna << " " << a[i].inverse_pairs_num << endl;
+    cout << a[i].dna << endl;
 
 }

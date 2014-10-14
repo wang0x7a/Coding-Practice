@@ -5,8 +5,8 @@
 
 using namespace std;
 
-int acc_num[MAX_PAIR_NUM];
-int pixels[MAX_PAIR_NUM];
+int acc_num[MAX_PAIR_NUM + 1];
+int pixels[MAX_PAIR_NUM + 1];
 
 int above_idx = 0;
 int center_idx = 1;
@@ -16,7 +16,7 @@ int width;
 int total_pixel_cnt;
 
 int init(void);
-int get_pixel_around(int idxt);
+int get_pixel_around(int idx);
 int get_pixel(int row_idx, int idx, int center);
 
 int main() {
@@ -28,13 +28,28 @@ int main() {
 
     total_pixel_cnt = acc_num[cnt - 1];
 
-    for (int i = 0; i < cnt; i++)
+    int tmp = width + 1;
+    for (int i = 1; i < cnt; i++) {
+      if (acc_num[i] >= tmp) {
+        below_idx = i;
+        break;
+      }
+    }
+
+    /*
+    for (int i = 0; i < cnt; i++) {
       cout << acc_num[i] << " " << pixels[i] << endl;
+    }
+    cout << below_idx << endl;
+    */
   }
 }
 
 int init() {
-  int cnt = 0;
+  acc_num[0] = 0;
+  pixels[0] = -1;
+
+  int cnt = 1;
   int prev = 0;
 
   int pixel, num;
@@ -86,4 +101,18 @@ int get_pixel_around(int idx) {
 }
 
 int get_pixel(int row_idx, int idx, int center) {
+  // when the current pixel is beyond the up or low boundary of the img
+  if (center <= 0 || center > total_pixel_cnt)
+    return -1;
+
+  // when the current pixel is beyond the left or right boundary 
+  if (center % width == 0 || center % width + 1 == width)
+    return -1;
+
+  if (idx == acc_num[row_idx - 1])
+    return pixels[row_idx - 1];
+  else if (idx == acc_num[row_idx + 1])
+    return pixels[row_idx + 1];
+  else
+    return pixels[row_idx];
 }

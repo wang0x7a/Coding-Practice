@@ -54,14 +54,21 @@ int main() {
     }
 
     cout << curr_pixel << " " << cnt_pixel;
+    cout << "0 0" << endl;
+    above_idx = 0;
+    center_idx = 1;
 
     /*
     for (int i = 0; i < cnt; i++) {
-      cout << acc_num[i] << " " << pixels[i] << endl;
+      cout << pixels[i] << " " << acc_num[i] << endl;
     }
+    cout << above_idx << endl;
+    cout << center_idx << endl;
     cout << below_idx << endl;
     */
   }
+
+  cout << "0" << endl;
 }
 
 int init() {
@@ -107,6 +114,22 @@ int get_pixel_around(int idx) {
       around[i] = get_pixel(below_idx, below - 7 + i, below);
   }
 
+
+  /*
+  cout << above_idx << " " << center_idx << " " << below_idx << " " << endl;
+  cout << "====" << endl;
+  for (int i = 0; i < 3; i++)
+    cout << around[i] << " ";
+  cout << endl;
+  for (int i = 3; i < 6; i++)
+    cout << around[i] << " ";
+  cout << endl;
+  for (int i = 6; i < 9; i++)
+    cout << around[i] << " ";
+  cout << endl;
+  cout << "====" << endl;
+  */
+
   for (int i = 0; i < 9; i++) {
     if (around[i] == -1)
       around[i] = around[4];
@@ -125,20 +148,26 @@ int get_pixel(int row_idx, int idx, int center) {
     return -1;
 
   // when the current pixel is beyond the left or right boundary 
-  if (center % width == 0 || center % width + 1 == width)
+  /*
+  if (center % width == 1 || center % width == 0)
+    return -1;
+  */
+
+  if (idx < center && center % width == 1)
     return -1;
 
-  if (idx == acc_num[row_idx - 1])
+  if (idx > center && center % width == 0)
+    return -1;
+
+  if (idx  == acc_num[row_idx - 1])
     return pixels[row_idx - 1];
-  else if (idx == acc_num[row_idx + 1])
+  else if (idx > acc_num[row_idx])
     return pixels[row_idx + 1];
   else
     return pixels[row_idx];
 }
 
 void update_row_idx(int idx) {
-  // the index of the next pixel
-  idx++;
   int above = idx - width;
   int below = idx + width;
 

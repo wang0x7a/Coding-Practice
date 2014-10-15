@@ -18,6 +18,7 @@ int total_pixel_cnt;
 int init(void);
 int get_pixel_around(int idx);
 int get_pixel(int row_idx, int idx, int center);
+void update_row_idx(int idx);
 
 int main() {
   while (cin >> width) {
@@ -35,6 +36,24 @@ int main() {
         break;
       }
     }
+
+    int curr_pixel = get_pixel_around(1);
+    int cnt_pixel = 1;
+    int tmp_pixel;
+    for (int idx = 2; idx <= total_pixel_cnt; idx++) {
+      update_row_idx(idx);
+
+      tmp_pixel = get_pixel_around(idx);
+      if (tmp_pixel == curr_pixel)
+        cnt_pixel++;
+      else {
+        cout << curr_pixel << " " << cnt_pixel << endl;
+        cnt_pixel = 1;
+      }
+      curr_pixel = tmp_pixel;
+    }
+
+    cout << curr_pixel << " " << cnt_pixel;
 
     /*
     for (int i = 0; i < cnt; i++) {
@@ -115,4 +134,20 @@ int get_pixel(int row_idx, int idx, int center) {
     return pixels[row_idx + 1];
   else
     return pixels[row_idx];
+}
+
+void update_row_idx(int idx) {
+  // the index of the next pixel
+  idx++;
+  int above = idx - width;
+  int below = idx + width;
+
+  if (above > 0 && above > acc_num[above_idx])
+    above_idx++;
+
+  if (idx > acc_num[center_idx])
+    center_idx++;
+
+  if (below <= total_pixel_cnt && below > acc_num[below_idx])
+    below_idx++;
 }

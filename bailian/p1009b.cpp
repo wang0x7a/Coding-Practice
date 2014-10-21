@@ -7,4 +7,5 @@ using namespace std;
 #define MAX_PAIR_NUM 1000
 
 int main() {
+  cout << "test";
 }

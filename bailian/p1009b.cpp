@@ -10,4 +10,5 @@ int main() {
   cout << "test";
   cout << "test2";
   cout << "test3";
+  cout << "test4";
 }

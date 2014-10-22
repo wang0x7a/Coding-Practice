@@ -17,8 +17,8 @@ int img_width;
 Record result[MAX_PAIR_NUM * 9];
 
 bool cmp(const Record& a, const Record& b);
-int get_pixel_via_pos(int pos);
-int encode_pixel(int pos, int pixel_cnt);
+int get_pixel_via_pos(int pos, int pair_cnt);
+int encode_pixel(int pos, int pixel_cnt, int pair_cnt);
 
 int main() {
   while (cin >> img_width && img_width > 0) {
@@ -26,12 +26,13 @@ int main() {
     int pair_cnt  = 0;
     int pixel_cnt = 0;
 
+    int start_pos = 1;
     while (cin >> pixel >> num && num != 0 && pixel != 0) {
       pixel_pair[pair_cnt][0] = pixel;
+      pixel_pair[pair_cnt][1] = start_pos;
 
       pixel_cnt += num;
-      pixel_pair[pair_cnt][1] = pixel_cnt;
-
+      start_pos += num;
       pair_cnt++;
     }
 
@@ -44,18 +45,22 @@ int main() {
       for (int i = row - 1; i <= row + 1; i++)
         for (int j = col - 1; j <= col + 1; j++) {
           int pos = i * img_width + j + 1;
-          if (i < 0 || pos > pixel_cnt || j < 0 || j == img_width 
-              || pos == center)
+          if (i < 0 || pos > pixel_cnt || j < 0 || j == img_width)
             continue;
 
           result[idx].pos   = pos;
-          result[idx].pixel = encode_pixel(pos, pixel_cnt); 
+          result[idx].pixel = encode_pixel(pos, pixel_cnt, pair_cnt); 
           
           idx++;
         }
     }
 
     sort(result, result + idx, cmp);
+
+    /*
+    for (int i = 0; i < idx; i++)
+      cout << result[i].pixel << " " << result[i].pos << endl;
+    */
 
     Record prev = result[0];
     if (idx > 1) {
@@ -89,18 +94,20 @@ bool cmp(const Record& a, const Record& b) {
   return a.pos < b.pos;
 }
 
-int get_pixel_via_pos(int pos) {
-  int acc = 0;
-  
-  for (int i = 0; i < MAX_PAIR_NUM; i++) {
-    acc += pixel_pair[i][1];
+int get_pixel_via_pos(int pos, int pair_cnt) {
+  if (pair_cnt == 1)
+    return pixel_pair[0][0];
 
-    if (acc >= pos)
-      return pixel_pair[i][0];
+  int prev = pixel_pair[0][1];
+  for (int i = 1; i < pair_cnt; i++) {
+    if (pos >= prev && pos < pixel_pair[i][1])
+      return pixel_pair[i - 1][0];
   }
+
+  return pixel_pair[pair_cnt - 1][0];
 }
 
-int encode_pixel(int pos, int pixel_cnt) {
+int encode_pixel(int pos, int pixel_cnt, int pair_cnt) {
   int row = (pos - 1) / img_width;
   int col = (pos - 1) % img_width;
 
@@ -114,7 +121,8 @@ int encode_pixel(int pos, int pixel_cnt) {
           || curr == pos)
         continue;
 
-      tmp = abs(get_pixel_via_pos(pos) - get_pixel_via_pos(curr));
+      tmp = abs(get_pixel_via_pos(pos, pair_cnt) 
+          - get_pixel_via_pos(curr, pair_cnt));
 
       if (tmp > ret)
         ret = tmp;

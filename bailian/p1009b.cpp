@@ -70,11 +70,9 @@ int main() {
           prev = result[i];
         }
       }
-
-      cout << result[idx - 1].pixel << " " << pixel_cnt - prev.pos + 1 << endl;
     }
-    else
-      cout << prev.pixel << " " << prev.pos << endl;
+
+    cout << result[idx - 1].pixel << " " << pixel_cnt - prev.pos + 1 << endl;
 
     cout << "0 0" << endl;
 

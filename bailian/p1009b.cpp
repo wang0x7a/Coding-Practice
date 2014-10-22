@@ -57,6 +57,23 @@ int main() {
 
     sort(result, result + idx, cmp);
 
+    Record prev = result[0];
+    if (idx > 1) {
+      for (int i = 1; i < idx; i++) {
+        if (prev.pixel != result[i].pixel) {
+          cout << prev.pixel << " " << result[i - 1].pos - prev.pos << endl;
+          prev = result[i];
+        }
+      }
+
+      cout << result[idx - 1].pixel << " " 
+        << result[idx - 1].pos - prev.pos << endl;
+    }
+    else
+      cout << prev.pixel << " " << prev.pos << endl;
+
+    cout << "0 0" << endl;
+
     /*
     for (int i = 0; i < pair_cnt; i++)
       cout << pixel_pair[i][0] << " " << pixel_pair[i][1] << endl;
@@ -64,6 +81,8 @@ int main() {
     cout << pixel_cnt << endl;
     */
   }
+
+  cout << 0 << endl;
 }
 
 bool cmp(const Record& a, const Record& b) {

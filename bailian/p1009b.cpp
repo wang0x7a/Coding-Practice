@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define MAX_PAIR_NUM 1000
+#define MAX_PAIR_NUM 1001
 
 typedef struct Record {
   int pos;

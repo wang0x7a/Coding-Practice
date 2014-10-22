@@ -66,13 +66,12 @@ int main() {
     if (idx > 1) {
       for (int i = 1; i < idx; i++) {
         if (prev.pixel != result[i].pixel) {
-          cout << prev.pixel << " " << result[i - 1].pos - prev.pos << endl;
+          cout << prev.pixel << " " << result[i].pos - prev.pos << endl;
           prev = result[i];
         }
       }
 
-      cout << result[idx - 1].pixel << " " 
-        << result[idx - 1].pos - prev.pos << endl;
+      cout << result[idx - 1].pixel << " " << pixel_cnt - prev.pos + 1 << endl;
     }
     else
       cout << prev.pixel << " " << prev.pos << endl;

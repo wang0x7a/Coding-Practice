@@ -63,16 +63,14 @@ int main() {
 
     cout << img_width << endl;
     Record prev = result[0];
-    if (idx > 1) {
-      for (int i = 1; i < idx; i++) {
-        if (prev.pixel != result[i].pixel) {
-          cout << prev.pixel << " " << result[i].pos - prev.pos << endl;
-          prev = result[i];
-        }
+    for (int i = 0; i < idx; i++) {
+      if (prev.pixel != result[i].pixel) {
+        cout << prev.pixel << " " << result[i].pos - prev.pos << endl;
+        prev = result[i];
       }
     }
 
-    cout << result[idx - 1].pixel << " " << pixel_cnt - prev.pos + 1 << endl;
+    cout << prev.pixel << " " << pixel_cnt - prev.pos + 1 << endl;
 
     cout << "0 0" << endl;
 

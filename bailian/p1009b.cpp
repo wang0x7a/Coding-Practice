@@ -21,12 +21,16 @@ int encode_pixel(int pos, int pixel_cnt, int pair_cnt);
 
 int main() {
   while (cin >> img_width && img_width > 0) {
+    cout << img_width << endl;
     int num, pixel;
     int pair_cnt  = 0;
     int pixel_cnt = 0;
 
     int start_pos = 1;
-    while (cin >> pixel >> num && num != 0 && pixel != 0) {
+    while (cin >> pixel >> num) {
+      if (num == 0 && pixel == 0)
+        break;
+
       pixel_pair[pair_cnt][0] = pixel;
       pixel_pair[pair_cnt][1] = start_pos;
 
@@ -61,7 +65,7 @@ int main() {
       cout << result[i].pixel << " " << result[i].pos << endl;
     */
 
-    cout << img_width << endl;
+    //cout << img_width << endl;
     Record prev = result[0];
     for (int i = 0; i < idx; i++) {
       if (prev.pixel != result[i].pixel) {
@@ -103,6 +107,8 @@ int get_pixel_via_pos(int pos, int pair_cnt) {
 }
 
 int encode_pixel(int pos, int pixel_cnt, int pair_cnt) {
+  int center_pix = get_pixel_via_pos(pos, pair_cnt);
+
   int row = (pos - 1) / img_width;
   int col = (pos - 1) % img_width;
 
@@ -116,8 +122,7 @@ int encode_pixel(int pos, int pixel_cnt, int pair_cnt) {
           || curr == pos)
         continue;
 
-      tmp = abs(get_pixel_via_pos(pos, pair_cnt) 
-          - get_pixel_via_pos(curr, pair_cnt));
+      tmp = abs(center_pix - get_pixel_via_pos(curr, pair_cnt));
 
       if (tmp > ret)
         ret = tmp;

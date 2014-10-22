@@ -11,9 +11,8 @@ typedef struct Record {
   int pixel;
 } Record;
 
-int pixel_pair[MAX_PAIR_NUM][2];
 int img_width;
-
+int pixel_pair[MAX_PAIR_NUM][2];
 Record result[MAX_PAIR_NUM * 9];
 
 bool cmp(const Record& a, const Record& b);
@@ -22,7 +21,6 @@ int encode_pixel(int pos, int pixel_cnt, int pair_cnt);
 
 int main() {
   while (cin >> img_width && img_width > 0) {
-    cout << img_width << endl;
     int num, pixel;
     int pair_cnt  = 0;
     int pixel_cnt = 0;
@@ -63,6 +61,7 @@ int main() {
       cout << result[i].pixel << " " << result[i].pos << endl;
     */
 
+    cout << img_width << endl;
     Record prev = result[0];
     if (idx > 1) {
       for (int i = 1; i < idx; i++) {

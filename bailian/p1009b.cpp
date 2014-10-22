@@ -22,6 +22,7 @@ int encode_pixel(int pos, int pixel_cnt, int pair_cnt);
 
 int main() {
   while (cin >> img_width && img_width > 0) {
+    cout << img_width << endl;
     int num, pixel;
     int pair_cnt  = 0;
     int pixel_cnt = 0;

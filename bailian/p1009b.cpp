@@ -21,16 +21,12 @@ int encode_pixel(int pos, int pixel_cnt, int pair_cnt);
 
 int main() {
   while (cin >> img_width && img_width > 0) {
-    cout << img_width << endl;
     int num, pixel;
     int pair_cnt  = 0;
     int pixel_cnt = 0;
 
     int start_pos = 1;
-    while (cin >> pixel >> num) {
-      if (num == 0 && pixel == 0)
-        break;
-
+    while (cin >> pixel >> num && num != 0) {
       pixel_pair[pair_cnt][0] = pixel;
       pixel_pair[pair_cnt][1] = start_pos;
 
@@ -39,12 +35,15 @@ int main() {
       pair_cnt++;
     }
 
+    pixel_pair[pair_cnt][0] = -1;
+    pixel_pair[pair_cnt][1] = start_pos;
+
     int idx = 0;
-    for (int k = 0; k < pair_cnt; k++) {
+    for (int k = 0; k <= pair_cnt; k++) {
       int center = pixel_pair[k][1];
       int row    = (center - 1) / img_width;
       int col    = (center - 1) % img_width;
-      
+
       for (int i = row - 1; i <= row + 1; i++)
         for (int j = col - 1; j <= col + 1; j++) {
           int pos = i * img_width + j + 1;
@@ -65,7 +64,7 @@ int main() {
       cout << result[i].pixel << " " << result[i].pos << endl;
     */
 
-    //cout << img_width << endl;
+    cout << img_width << endl;
     Record prev = result[0];
     for (int i = 0; i < idx; i++) {
       if (prev.pixel != result[i].pixel) {
@@ -94,16 +93,13 @@ bool cmp(const Record& a, const Record& b) {
 }
 
 int get_pixel_via_pos(int pos, int pair_cnt) {
-  if (pair_cnt == 1)
-    return pixel_pair[0][0];
-
-  int prev = pixel_pair[0][1];
-  for (int i = 1; i < pair_cnt; i++) {
-    if (pos >= prev && pos < pixel_pair[i][1])
-      return pixel_pair[i - 1][0];
+  int i;
+  for (i = 0; i < pair_cnt; i++) {
+    if (pos < pixel_pair[i][1])
+      break;
   }
 
-  return pixel_pair[pair_cnt - 1][0];
+  return pixel_pair[i - 1][0];
 }
 
 int encode_pixel(int pos, int pixel_cnt, int pair_cnt) {

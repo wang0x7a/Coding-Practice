@@ -50,11 +50,11 @@ int main() {
       int price[numOfDevs];
       memset(price, CHAR_MAX, sizeof(price));
 
-      bool isVisited[numOfDevs];
-      memset(isVisited, false, sizeof(isVisited));
+      //bool isVisited[numOfDevs];
+      //memset(isVisited, false, sizeof(isVisited));
       bandwidth = dev[i].bandwidth;
       price[dev[i].id - 1] = dev[i].price;
-      isVisited[dev[i].id - 1] = true;
+      //isVisited[dev[i].id - 1] = true;
 
       for (int j = i + 1; j <= numOfOpts - 1; j++) {
 
@@ -63,10 +63,11 @@ int main() {
 
         if (price[dev[j].id - 1] > dev[j].price) {
           price[dev[j].id - 1] = dev[j].price;
-          isVisited[dev[j].id - 1] = isVisited[dev[j].id - 1] || true;
+          //isVisited[dev[j].id - 1] = isVisited[dev[j].id - 1] || true;
         }
       }
 
+      /*
       bool isAllVisited = true;
       for (int i = 0; i < numOfDevs; i++) {
         if (!isVisited[i]) {
@@ -74,7 +75,6 @@ int main() {
           break;
         }
       }
-
 
       if (!isAllVisited)
         tmp = 0.0;
@@ -84,6 +84,12 @@ int main() {
 
         tmp = bandwidth * 1.0 / totalPrice;
       }
+      */
+
+      for (int i = 0; i < numOfDevs; i++)
+        totalPrice += price[i];
+
+      tmp = bandwidth * 1.0 / totalPrice;
 
       if (tmp > result) {
         for (int i = 0; i < numOfDevs; i++)
@@ -96,9 +102,11 @@ int main() {
 
     cout << result << endl;
 
+    /*
     for (int i = 0; i < numOfOpts; i++)
       cout << dev[i].bandwidth << "\t" << dev[i].price << "\t" 
         << dev[i].id << endl;
+    */
 
   }
 }

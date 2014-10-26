@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cstring>
 #include <climits>
+#include <iomanip>
 
 #define MAX_DEV_NUM 10000
 
@@ -77,11 +78,11 @@ int main() {
       if (!isAllVisited)
         tmp = 0.0;
       else {
-        int totalPrice;
+        int totalPrice = 0;
         for (int i = 0; i < numOfDevs; i++)
           totalPrice += price[i];
 
-        tmp = bandwidth * 1.0 / totalPrice;
+        tmp = (float)bandwidth / (float)totalPrice;
       }
 
       /*
@@ -92,15 +93,11 @@ int main() {
       */
 
       if (tmp > result) {
-        for (int i = 0; i < numOfDevs; i++)
-          cout << price[i] << " ";
-        cout << endl;
-        cout << bandwidth << endl;
         result = tmp;
       }
     }
 
-    cout << result << endl;
+    cout << setprecision(3) << result << endl;
 
     /*
     for (int i = 0; i < numOfOpts; i++)

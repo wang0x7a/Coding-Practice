@@ -48,7 +48,7 @@ int main() {
     //memset(price, INT_MAX, sizeof(price));
     for (int i = 0; i <= numOfOpts - numOfDevs; i++) {
       int price[numOfDevs];
-      memset(price, CHAR_MAX, sizeof(price));
+      //memset(price, CHAR_MAX, sizeof(price));
 
       bool isVisited[numOfDevs];
       memset(isVisited, false, sizeof(isVisited));
@@ -97,7 +97,7 @@ int main() {
       }
     }
 
-    cout << setprecision(3) << result << endl;
+    cout << fixed << setprecision(3) << result << endl;
 
     /*
     for (int i = 0; i < numOfOpts; i++)

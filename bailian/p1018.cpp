@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <cstring>
 
 #define MAX_DEV_NUM 10000
 
@@ -24,30 +25,31 @@ int main() {
     cin >> n;
 
     Device dev[MAX_DEV_NUM];
-    int idx = 0;
+    int numOfOpts = 0;
+    int numOfDevs = 0;
     for (int j = 1; j <= n; j++) {
-      int m;
-      cin >> m;
+      cin >> numOfDevs;
 
       int b, p;
-      for (int cnt = 0; cnt < m; cnt++) {
+      for (int cnt = 0; cnt < numOfDevs; cnt++) {
         cin >> b >> p;
 
-        dev[idx].id        = j;
-        dev[idx].price     = p;
-        dev[idx].bandwidth = b;
+        dev[numOfOpts].id        = j;
+        dev[numOfOpts].price     = p;
+        dev[numOfOpts].bandwidth = b;
 
-        idx++;
+        numOfOpts++;
       }
     }
 
-    sort(dev, dev + idx, cmp);
+    sort(dev, dev + numOfOpts, cmp);
 
-    /*
-    for (int i = 0; i < idx; i++)
-      cout << dev[i].id << " " << dev[i].bandwidth  << " "
-        << dev[i].price << endl;
-    */
+    bool isVisited[numOfDevs];
+    memset(isVisited, false, sizeof(isVisited));
+
+    for (int i = 0; i < numOfOpts; i++)
+      cout << dev[i].bandwidth << "\t" << dev[i].price << "\t" 
+        << dev[i].id << endl;
   }
 }
 

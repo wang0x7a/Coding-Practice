@@ -43,8 +43,9 @@ int main() {
   for (int i = 0; i < 2; i++)
     for (int j = 0; j < 4; j++) {
       int tmp = solve(arr[j], i);
+      cout << tmp << endl;
 
-      if (tmp < INT_MAX)
+      if (tmp < minFlip)
         minFlip = tmp;
     }
 
@@ -167,7 +168,7 @@ int solve(int a, int tgt) {
       return INT_MAX;
     
     flip(&a, pos);
-    //print(a);
+    print(a);
     step++;
   }
 

@@ -31,6 +31,9 @@ int main() {
   print(a);
   int black = solve(a, 1);
 
+  cout << white << endl;
+  cout << black << endl;
+
   if (white < INT_MAX || black < INT_MAX)
     cout << ((white < black) ? white : black) << endl;
   else

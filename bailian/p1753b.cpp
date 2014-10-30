@@ -1,5 +1,4 @@
 #include <iostream>
-#include <climits>
 
 using namespace std;
 
@@ -26,29 +25,10 @@ int main() {
     }
   }
 
-  print(a);
-  int white = solve(a, 0);
-  print(a);
-  int black = solve(a, 1);
+  int minFlip = INT_MAX;
 
-  if (white < INT_MAX || black < INT_MAX)
-    cout << ((white < black) ? white : black) << endl;
-  else
-    cout << "Impossible" << endl;
-
-  /*
-  int b = flip(a, 0);
-  int c = flip(a, 4);
-  int d = flip(a, 3);
-  int e = flip(a, 6);
-  int f = flip(a, 15);
-  print(a);
-  print(b);
-  print(c);
-  print(d);
-  print(e);
-  print(f);
-  */
+  for (int i = 0; i < 16; i++) {
+  }
 }
 
 void print(int a) {

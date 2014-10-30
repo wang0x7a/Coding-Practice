@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
@@ -6,6 +7,8 @@ int flip(int a, int pos);
 void flip(int* a, int pos);
 void print(int a);
 int solve(int a, int tgt);
+int topDown2LeftRight(int a);
+int reverseDirection(int a);
 
 int main() {
   int a = 0;
@@ -25,10 +28,63 @@ int main() {
     }
   }
 
-  int minFlip = INT_MAX;
+  int arr[4];
+  arr[0] = a;
+  /*
+  print(arr[0]);
+  arr[2] = reverseDirection(a);
+  print(arr[2]);
+  */
+  arr[1] = reverseDirection(a);
+  arr[2] = topDown2LeftRight(a);
+  arr[3] = reverseDirection(arr[2]);
 
-  for (int i = 0; i < 16; i++) {
+  int minFlip = INT_MAX;
+  for (int i = 0; i < 2; i++)
+    for (int j = 0; j < 4; j++) {
+      int tmp = solve(arr[j], i);
+
+      if (tmp < INT_MAX)
+        minFlip = tmp;
+    }
+
+  if (minFlip == INT_MAX)
+    cout << "Impossible" << endl;
+  else
+    cout << minFlip << endl;
+}
+
+int topDown2LeftRight(int a) {
+  int ret   = 0;
+  int shift = 0;
+  for (int col = 0; col < 4; col++) {
+    for (int row = 0; row < 4; row++) {
+      int pos = row * 4 + col;
+      int tmp = a;
+
+      ret = ret | (((tmp >> pos) & 1) << shift);
+
+      shift++;
+    }
   }
+
+  return ret;
+}
+
+int reverseDirection(int a) {
+  int ret = 0;
+
+  int mask = 0xf;
+
+  int shift = 12;
+  while (a) {
+    ret = ret | ((a & mask) << shift);
+
+    a = a >> 4;
+    shift -= 4;
+  }
+
+  return ret;
 }
 
 void print(int a) {
@@ -111,7 +167,7 @@ int solve(int a, int tgt) {
       return INT_MAX;
     
     flip(&a, pos);
-    print(a);
+    //print(a);
     step++;
   }
 

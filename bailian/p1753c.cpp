@@ -7,8 +7,6 @@ using namespace std;
 
 void print(int a);
 void flipOnce(int& a, int pos);
-void dfs(int a, int pos, int tgt, bool isVisited[], int& minStep, int step);
-bool isAllVisited(bool isVisited[]);
 
 int main() {
   int a = 0;
@@ -28,19 +26,6 @@ int main() {
     }
   }
 
-  bool isVisited[EDGE_LEN * EDGE_LEN];
-  memset(isVisited, false, sizeof(isVisited));
-  int minStep = INT_MAX;
-  dfs(a, 0, 0, isVisited, minStep, 0);
-  memset(isVisited, false, sizeof(isVisited));
-  dfs(a, 0, 1, isVisited, minStep, 0);
-
-  if (minStep < INT_MAX)
-    cout << minStep << endl;
-  else
-    cout << "Impossible" << endl;
-
-
   /*
   print(a);
   cout << "===" << endl;
@@ -51,50 +36,6 @@ int main() {
   print(a);
   cout << "===" << endl;
   */
-}
-
-void dfs(int a, int pos, int tgt, bool isVisited[], int& minStep, int step) {
-  if (a == 0 || a == 0xf) {
-    if (minStep > step)
-      minStep = step;
-    return;
-  }
-
-  if (isAllVisited(isVisited)) {
-    minStep = INT_MAX;
-    return;
-  }
-
-  int tmp = a;
-  int bit = (tmp >> pos) & 1;
-
-  if (bit == tgt) {
-    if (!isVisited[pos]) {
-      isVisited[pos] = true;
-      flipOnce(a, pos);
-      step++;
-      dfs(a, (pos + 1) % (EDGE_LEN * EDGE_LEN), tgt, isVisited, minStep, step);
-      flipOnce(a, pos);
-      isVisited[pos] = false;
-      step--;
-      dfs(a, (pos + 1) % (EDGE_LEN * EDGE_LEN), tgt, isVisited, minStep, step);
-    }
-    else
-      dfs(a, (pos + 1) % (EDGE_LEN * EDGE_LEN), tgt, isVisited, minStep, step);
-  }
-  else {
-    dfs(a, (pos + 1) % (EDGE_LEN * EDGE_LEN), tgt, isVisited, minStep, step);
-  }
-}
-
-bool isAllVisited(bool isVisited[]) {
-  int totalCount = EDGE_LEN * EDGE_LEN;
-
-  for (int i = 0; i < totalCount; i++)
-    if (! isVisited[i])
-      return false;
-
-  return true;
 }
 
 void flipOnce(int& a, int pos) {

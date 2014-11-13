@@ -42,6 +42,11 @@ int solve(Point a[], int n, float d) {
 
   int idx = 0;
   while (idx < n) {
+    if (idx < n - 1 && a[idx].x == a[idx + 1].x) {
+      idx++;
+      continue;
+    }
+
     int tmp = shift(a, n, d, idx);
 
     if (tmp == -1)
@@ -66,13 +71,16 @@ int shift(Point a[], int n, float d, int idx) {
     if (i == n)
       break;
 
+    if (a[i].x == a[i - 1].x)
+      continue;
+
     float diffX = a[i].x - radarPos;
     float dist = d * d - diffX * diffX - a[i].y * a[i].y;
 
-    if (dist >= 0)
-      ret++;
-    else
+    if (dist < 0)
       break;
+
+    ret++;
   }
 
   return ret;

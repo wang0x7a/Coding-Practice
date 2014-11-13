@@ -5,6 +5,8 @@
 
 #define EDGE_LEN      4
 #define MAX_STATE_NUM 65536
+#define ALL_WHITE     0
+#define ALL_BLACK     65535
 
 using namespace std;
 
@@ -29,7 +31,7 @@ int main() {
     }
   }
 
-  if (a == 0 || a == 65535) {
+  if (a == ALL_WHITE || a == ALL_BLACK) {
     cout << 0 << endl;
     return 0;
   }
@@ -54,17 +56,16 @@ int main() {
 
       thisLevelCnt++;
 
-      if (c == 0 || c == 65535) {
+      if (c == ALL_WHITE || c == ALL_BLACK) {
         minStep = ++level;
-        break;
+
+        cout << minStep << endl;
+        return 0;
       }
 
       q.push(c);
       state[c] = true;
     }
-
-    if (minStep < INT_MAX)
-      break;
 
     if (lastLevelCnt == 0) {
       level++;
@@ -73,11 +74,8 @@ int main() {
     }
   }
 
-
-  if (minStep < INT_MAX)
-    cout << minStep << endl;
-  else
-    cout << "Impossible" << endl;
+  cout << "Impossible" << endl;
+  return 0;
 
   /*
   print(a);

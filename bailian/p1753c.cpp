@@ -1,12 +1,15 @@
 #include <iostream>
 #include <climits>
+#include <queue>
+#include <cstring>
 
-#define EDGE_LEN 4
+#define EDGE_LEN      4
+#define MAX_STATE_NUM 65536
 
 using namespace std;
 
 void print(int a);
-void flipOnce(int& a, int pos);
+int flipOnce(int a, int pos);
 
 int main() {
   int a = 0;
@@ -26,19 +29,64 @@ int main() {
     }
   }
 
+  bool state[MAX_STATE_NUM];
+  memset(state, false, sizeof(state));
+  queue<int> q;
+  q.push(a);
+  
+  int level = 0, minStep = INT_MAX;
+  int thisLevelCnt = 0, lastLevelCnt = 1;
+  while (!q.empty()) {
+    int b = q.front();
+    q.pop();
+    lastLevelCnt--;
+
+    for (int i = 0; i < EDGE_LEN * EDGE_LEN; i++) {
+      int c = flipOnce(b, i); 
+
+      if (state[c])
+        continue;
+
+      thisLevelCnt++;
+
+      if (c == 0 || c == 65535) {
+        minStep = ++level;
+        break;
+      }
+
+      q.push(c);
+      state[c] = true;
+    }
+
+    if (minStep < INT_MAX)
+      break;
+
+    if (lastLevelCnt == 0) {
+      level++;
+      lastLevelCnt = thisLevelCnt;
+      thisLevelCnt = 0;
+    }
+  }
+
+
+  if (minStep < INT_MAX)
+    cout << minStep << endl;
+  else
+    cout << "Impossible" << endl;
+
   /*
   print(a);
   cout << "===" << endl;
-  flip(a, 0);
-  print(a);
+  int b = flipOnce(a, 0);
+  print(b);
   cout << "===" << endl;
-  flip(a, 4);
-  print(a);
+  int c = flipOnce(b, 4);
+  print(c);
   cout << "===" << endl;
   */
 }
 
-void flipOnce(int& a, int pos) {
+int flipOnce(int a, int pos) {
   int row = pos / 4;
   int col = pos % 4;
 
@@ -63,7 +111,7 @@ void flipOnce(int& a, int pos) {
         a = a | mask;
     }
 
-  return;
+  return a;
 }
 
 void print(int a) {

@@ -29,6 +29,11 @@ int main() {
     }
   }
 
+  if (a == 0 || a == 65535) {
+    cout << 0 << endl;
+    return 0;
+  }
+
   bool state[MAX_STATE_NUM];
   memset(state, false, sizeof(state));
   queue<int> q;

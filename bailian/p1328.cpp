@@ -5,22 +5,23 @@
 using namespace std;
 
 typedef struct Point {
-  int x;
-  int y;
+  float x;
+  float y;
 } Point;
 
-int solve(Point a[], int n, int d);
-int shift(Point a[], int n, int d, int idx);
+int solve(Point a[], int n, float d);
+int shift(Point a[], int n, float d, int idx);
 bool cmpX(Point a, Point b);
 bool cmpY(Point a, Point b);
 bool cmp(Point a, Point b);
 
 int main() {
-  int n, d;
+  int n;
+  float d;
 
   int cnt = 0;
   while (cin >> n >> d) {
-    if (n == 0 && d == 0)
+    if (n == 0 && d == 0.0)
       break;
 
     cnt++;
@@ -36,7 +37,7 @@ int main() {
   }
 }
 
-int solve(Point a[], int n, int d) {
+int solve(Point a[], int n, float d) {
   int cnt = 0;
 
   int idx = 0;
@@ -53,19 +54,20 @@ int solve(Point a[], int n, int d) {
   return cnt;
 }
 
-int shift(Point a[], int n, int d, int idx) {
+int shift(Point a[], int n, float d, int idx) {
   int ret = 1;
 
   if (a[idx].y > d)
     return -1;
 
-  int radarPos = sqrt(d^2 - a[idx].y^2) + a[idx].x;
+  float radarPos = sqrt(d * d - a[idx].y * a[idx].y) + a[idx].x;
 
   for (int i = idx + 1; i < n; i++) {
     if (i == n)
       break;
 
-    int dist = d^2 - (a[i].x - radarPos)^2 - a[i].y^2;
+    float diffX = a[i].x - radarPos;
+    float dist = d * d - diffX * diffX - a[i].y * a[i].y;
 
     if (dist >= 0)
       ret++;

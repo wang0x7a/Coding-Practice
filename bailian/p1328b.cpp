@@ -2,8 +2,6 @@
 #include <cmath>
 #include <algorithm>
 
-#define MAX_RADAR_NUM 1000
-
 using namespace std;
 
 typedef struct Point {

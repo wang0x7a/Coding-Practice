@@ -17,11 +17,11 @@ typedef struct {
 int legal_sell_num = 0;
 Record legal_sells[MAX_SELL_NUM];
 
-int types_num = 0;
+int type_num = 0;
 int types[MAX_TYPE_NUM];
 
 void solve(int req);
-void dfs(int req, Record curr);
+void dfs(int req, int idx, Record curr);
 void print_record(Record record);
 bool cmp_record(Record a, Record b);
 
@@ -36,13 +36,14 @@ int main() {
     }
 
     if (line_idx % 2) {
+      sort(types, types + type_num);
       solve(n);
       legal_sell_num = 0;
-      types_num      = 0;
+      type_num       = 0;
     }
     else {
-      types[types_num] = n;
-      types_num++;
+      types[type_num] = n;
+      type_num++;
     }
   }
 }
@@ -64,7 +65,7 @@ void print_record(Record record) {
 void solve(int req) {
   Record acc;
 
-  dfs(req, acc);
+  dfs(req, 0, acc);
 
   cout << req;
   if (legal_sell_num == 0)
@@ -84,5 +85,5 @@ void solve(int req) {
   cout << endl;
 }
 
-void dfs(int rec, Record acc) {
+void dfs(int req, int idx, Record acc) {
 }

@@ -8,8 +8,9 @@ using namespace std;
 #define MAX_SELL_NUM  1000
 
 typedef struct {
-  int stamp_num     = 0;
-  int highest_value = 0;
+  int stamp_num;
+  int highest_value;
+  int type_num;
 
   int stamps[MAX_STAMP_NUM];
 } Record;
@@ -56,7 +57,7 @@ bool cmp_record(Record a, Record b) {
 }
 
 void print_record(Record record) {
-  cout << " (" << record.stamp_num << "):";
+  cout << " (" << record.type_num << "):";
 
   for (int i = 0; i < record.stamp_num; i++)
     cout << " " << record.stamps[i];
@@ -64,6 +65,9 @@ void print_record(Record record) {
 
 void solve(int req) {
   Record acc;
+  acc.stamp_num     = 0;
+  acc.type_num      = 0;
+  acc.highest_value = 0;
 
   dfs(req, 0, acc);
 
@@ -79,11 +83,35 @@ void solve(int req) {
         || legal_sells[0].highest_value > legal_sells[1].highest_value)
       print_record(legal_sells[0]);
     else
-      cout << " (" << legal_sells[0].stamp_num << "): tie";
+      cout << " (" << legal_sells[0].type_num << "): tie";
   }
 
   cout << endl;
 }
 
 void dfs(int req, int idx, Record acc) {
+  if (req == 0) {
+    legal_sells[legal_sell_num] = acc;
+    legal_sell_num++;
+    return;
+  }
+
+  if (types[idx] > req || acc.stamp_num >= 4)
+    return;
+
+  Record tmp;
+  for (int i = idx; i < type_num; i++) {
+    tmp = acc;
+    tmp.stamps[tmp.stamp_num] = types[i];
+    tmp.stamp_num++;
+
+    if (i != idx)
+      tmp.type_num++;
+
+    tmp.highest_value = types[i];
+
+    dfs(req - types[i], i, tmp);
+  }
+
+  return;
 }

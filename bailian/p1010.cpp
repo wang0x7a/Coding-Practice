@@ -32,6 +32,11 @@ int main() {
 
   while (cin >> n) {
     if (n == 0) {
+      if (line_idx % 2) {
+        legal_sell_num = 0;
+        type_num       = 0;
+      }
+
       line_idx++;
       continue;
     }
@@ -40,7 +45,6 @@ int main() {
       sort(types, types + type_num);
       solve(n);
       legal_sell_num = 0;
-      type_num       = 0;
     }
     else {
       types[type_num] = n;
@@ -50,10 +54,21 @@ int main() {
 }
 
 bool cmp_record(Record a, Record b) {
+  if (a.type_num == b.type_num) {
+    if (a.stamp_num == b.stamp_num)
+      return a.highest_value > b.highest_value;
+    else
+      return a.stamp_num < b.stamp_num;
+  }
+  else
+    return a.type_num > b.type_num;
+
+  /*
   if (a.stamp_num == b.stamp_num)
     return a.highest_value > b.highest_value;
   else
-    return a.stamp_num < b.stamp_num;
+    return a.stamp_num > b.stamp_num;
+  */
 }
 
 void print_record(Record record) {
@@ -80,23 +95,32 @@ void solve(int req) {
     sort(legal_sells, legal_sells + legal_sell_num, cmp_record);
 
     if (legal_sells[0].stamp_num < legal_sells[1].stamp_num 
-        || legal_sells[0].highest_value > legal_sells[1].highest_value)
+        || legal_sells[0].highest_value > legal_sells[1].highest_value
+        || legal_sells[0].type_num > legal_sells[1].type_num)
       print_record(legal_sells[0]);
     else
       cout << " (" << legal_sells[0].type_num << "): tie";
   }
 
   cout << endl;
+  /*
+  for (int i = 0; i < legal_sell_num; i++) {
+    print_record(legal_sells[i]);
+    cout << endl;
+  }
+
+  cout << endl;
+  */
 }
 
 void dfs(int req, int idx, Record acc) {
-  if (req == 0) {
+  if (req == 0 && acc.stamp_num <= MAX_STAMP_NUM) {
     legal_sells[legal_sell_num] = acc;
     legal_sell_num++;
     return;
   }
 
-  if (types[idx] > req || acc.stamp_num >= 4)
+  if (types[idx] > req || acc.stamp_num > MAX_STAMP_NUM)
     return;
 
   Record tmp;
@@ -105,7 +129,7 @@ void dfs(int req, int idx, Record acc) {
     tmp.stamps[tmp.stamp_num] = types[i];
     tmp.stamp_num++;
 
-    if (i != idx)
+    if (i != idx || tmp.stamp_num == 1)
       tmp.type_num++;
 
     tmp.highest_value = types[i];

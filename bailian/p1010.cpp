@@ -5,7 +5,7 @@ using namespace std;
 
 #define MAX_STAMP_NUM 4
 #define MAX_TYPE_NUM  25
-#define MAX_SELL_NUM  1000
+#define MAX_SELL_NUM  390625
 
 typedef struct {
   int stamp_num;
@@ -22,7 +22,7 @@ int type_num = 0;
 int types[MAX_TYPE_NUM];
 
 void solve(int req);
-void dfs(int req, int idx, Record curr);
+void dfs(int req, int last_idx, int idx, Record curr);
 void print_record(Record record);
 bool cmp_record(Record a, Record b);
 
@@ -36,6 +36,14 @@ int main() {
         legal_sell_num = 0;
         type_num       = 0;
       }
+      /*
+      else {
+        for (int i = 0; i < type_num; i++)
+          cout << types[i] << " ";
+
+        cout << endl;
+      }
+      */
 
       line_idx++;
       continue;
@@ -84,7 +92,7 @@ void solve(int req) {
   acc.type_num      = 0;
   acc.highest_value = 0;
 
-  dfs(req, 0, acc);
+  dfs(req, -1, 0, acc);
 
   cout << req;
   if (legal_sell_num == 0)
@@ -113,7 +121,74 @@ void solve(int req) {
   */
 }
 
+void dfs(int req, int last_idx, int idx, Record acc) {
+  if (req == 0 && acc.stamp_num <= MAX_STAMP_NUM) {
+    legal_sells[legal_sell_num] = acc;
+    legal_sell_num++;
+    return;
+  }
+
+  if (idx >= type_num || types[idx] > req || acc.stamp_num > MAX_STAMP_NUM)
+    return;
+
+  Record tmp = acc;
+
+  // select current denomination
+  acc.stamps[acc.stamp_num] = types[idx];
+  acc.stamp_num++;
+  acc.highest_value = types[idx];
+
+  if (last_idx != idx)
+    acc.type_num++;
+
+  dfs(req - types[idx], idx, idx, acc);
+
+  // do not selelct current denomination
+  dfs(req, idx, idx + 1, tmp);
+
+  // search next type
+  /*
+  if (idx < type_num - 1) {
+    tmp.stamps[tmp.stamp_num] = types[idx + 1];
+    tmp.stamp_num++;
+    tmp.type_num++;
+    tmp.highest_value = types[idx + 1];
+
+    dfs(req - types[idx + 1], idx + 1, tmp);
+  }
+  if (tmp.stamp_num == 4) {
+    cout << "tmp" << endl;
+    print_record(tmp);
+    cout << endl;
+  }
+  */
+
+  
+  /*
+  Record tmp;
+  for (int i = idx; i < type_num; i++) {
+    tmp = acc;
+    tmp.stamps[tmp.stamp_num] = types[i];
+    tmp.stamp_num++;
+
+    if (i != idx || tmp.stamp_num == 1)
+      tmp.type_num++;
+
+    tmp.highest_value = types[i];
+
+    dfs(req - types[i], i, tmp);
+  }
+  */
+
+  return;
+}
+
+/* TODO: 
+ * This implementaiton works for C++ 11, but not g++ 4.1
 void dfs(int req, int idx, Record acc) {
+  //cout << type_num << endl;
+  cout << idx << endl;
+  cout << acc.stamp_num << endl;
   if (req == 0 && acc.stamp_num <= MAX_STAMP_NUM) {
     legal_sells[legal_sell_num] = acc;
     legal_sell_num++;
@@ -135,7 +210,11 @@ void dfs(int req, int idx, Record acc) {
     tmp.highest_value = types[i];
 
     dfs(req - types[i], i, tmp);
+    cout << "fadfad" << i << endl;
+    //print_record(tmp);
+    //cout << endl;
   }
 
   return;
 }
+*/

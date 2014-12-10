@@ -111,14 +111,6 @@ void solve(int req) {
   }
 
   cout << endl;
-  /*
-  for (int i = 0; i < legal_sell_num; i++) {
-    print_record(legal_sells[i]);
-    cout << endl;
-  }
-
-  cout << endl;
-  */
 }
 
 void dfs(int req, int last_idx, int idx, Record acc) {
@@ -145,40 +137,6 @@ void dfs(int req, int last_idx, int idx, Record acc) {
 
   // do not selelct current denomination
   dfs(req, idx, idx + 1, tmp);
-
-  // search next type
-  /*
-  if (idx < type_num - 1) {
-    tmp.stamps[tmp.stamp_num] = types[idx + 1];
-    tmp.stamp_num++;
-    tmp.type_num++;
-    tmp.highest_value = types[idx + 1];
-
-    dfs(req - types[idx + 1], idx + 1, tmp);
-  }
-  if (tmp.stamp_num == 4) {
-    cout << "tmp" << endl;
-    print_record(tmp);
-    cout << endl;
-  }
-  */
-
-  
-  /*
-  Record tmp;
-  for (int i = idx; i < type_num; i++) {
-    tmp = acc;
-    tmp.stamps[tmp.stamp_num] = types[i];
-    tmp.stamp_num++;
-
-    if (i != idx || tmp.stamp_num == 1)
-      tmp.type_num++;
-
-    tmp.highest_value = types[i];
-
-    dfs(req - types[i], i, tmp);
-  }
-  */
 
   return;
 }

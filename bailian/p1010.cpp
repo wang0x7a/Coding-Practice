@@ -36,14 +36,6 @@ int main() {
         legal_sell_num = 0;
         type_num       = 0;
       }
-      /*
-      else {
-        for (int i = 0; i < type_num; i++)
-          cout << types[i] << " ";
-
-        cout << endl;
-      }
-      */
 
       line_idx++;
       continue;
@@ -70,13 +62,6 @@ bool cmp_record(Record a, Record b) {
   }
   else
     return a.type_num > b.type_num;
-
-  /*
-  if (a.stamp_num == b.stamp_num)
-    return a.highest_value > b.highest_value;
-  else
-    return a.stamp_num > b.stamp_num;
-  */
 }
 
 void print_record(Record record) {
@@ -140,39 +125,3 @@ void dfs(int req, int last_idx, int idx, Record acc) {
 
   return;
 }
-
-/* TODO: 
- * This implementaiton works for C++ 11, but not g++ 4.1
-void dfs(int req, int idx, Record acc) {
-  //cout << type_num << endl;
-  cout << idx << endl;
-  cout << acc.stamp_num << endl;
-  if (req == 0 && acc.stamp_num <= MAX_STAMP_NUM) {
-    legal_sells[legal_sell_num] = acc;
-    legal_sell_num++;
-    return;
-  }
-
-  if (types[idx] > req || acc.stamp_num > MAX_STAMP_NUM)
-    return;
-
-  Record tmp;
-  for (int i = idx; i < type_num; i++) {
-    tmp = acc;
-    tmp.stamps[tmp.stamp_num] = types[i];
-    tmp.stamp_num++;
-
-    if (i != idx || tmp.stamp_num == 1)
-      tmp.type_num++;
-
-    tmp.highest_value = types[i];
-
-    dfs(req - types[i], i, tmp);
-    cout << "fadfad" << i << endl;
-    //print_record(tmp);
-    //cout << endl;
-  }
-
-  return;
-}
-*/

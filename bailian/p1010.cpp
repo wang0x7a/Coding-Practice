@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <cstdio>
 
 using namespace std;
 
@@ -30,7 +31,8 @@ int main() {
   int n;
   int line_idx = 0;
 
-  while (cin >> n) {
+  //while (cin >> n) {
+  while (scanf("%d", &n) != EOF) {
     if (n == 0) {
       if (line_idx % 2) {
         legal_sell_num = 0;

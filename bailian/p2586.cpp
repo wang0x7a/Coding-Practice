@@ -1,7 +1,5 @@
 #include <iostream>
 
-#define REPORT_MONTH_NUM 5
-
 using namespace std;
 
 int solve(int s, int d);
@@ -20,7 +18,7 @@ int main() {
 }
 
 int solve(int s, int d) {
-  int earning  = s * REPORT_MONTH_NUM;
+  int earning  = s * 5;
 
   int cnt = 0;
   while (earning > 0) {
@@ -29,9 +27,9 @@ int solve(int s, int d) {
   }
 
   int res;
-  if (cnt < REPORT_MONTH_NUM - 1)
+  if (cnt < 4)
     res = earning * 2 + s * 2;
-  else if (cnt == REPORT_MONTH_NUM - 1)
+  else if (cnt == 4)
     res = earning * 2 + s - d;
   else
     res = earning - 2 * d;

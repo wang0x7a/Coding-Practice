@@ -1,9 +1,11 @@
 #include <iostream>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
 int translate(string s);
+void print(int tel, int cnt);
 
 int main() {
   int tel_num;
@@ -38,17 +40,16 @@ int main() {
       cnt++;
     else {
       if (cnt > 1) {
-        cout << prev / 10000 << "-" << prev % 10000 << " " << cnt << endl;
+        print(prev, cnt);
         flag = false;
+        cnt = 1;
       }
-
-      cnt = 1;
-      prev = curr;
     }
+    prev = curr;
   }
 
   if (cnt > 1) {
-    cout << curr / 10000 << "-" << curr % 10000 << " " << cnt << endl;
+    print(curr, cnt);
     flag = false;
   }
 
@@ -56,23 +57,33 @@ int main() {
     cout << "No duplicates." << endl;
 }
 
+void print(int tel, int cnt) {
+  cout << setfill('0') << setw(3) << tel / 10000;
+  cout << '-';
+  cout << setfill('0') << setw(4) << tel % 10000;
+  cout << ' ' << cnt << endl;
+}
+
 int translate(string s) {
   int res = 0;
   int str_len = s.size();
 
+  int d = 0;
   for (int i = 0; i < str_len; i++) {
     if (s[i] >= '0' && s[i] <= '9')
-      res = res * 10 + s[i] - '0';
+      d = s[i] - '0';
     else if ((s[i] >= 'A' && s[i] <= 'P') || (s[i] >= 'a' && s[i] <= 'p')) {
       s[i] = toupper(s[i]);
-      res = res * 10 + (s[i] - 'A') / 3 + 2;
+      d = (s[i] - 'A') / 3 + 2;
     }
     else if ((s[i] >= 'R' && s[i] <= 'Y') || (s[i] >= 'r' && s[i] <= 'y')) {
       s[i] = toupper(s[i]);
-      res = res * 10 + (s[i] - 'A' - 1) / 3 + 2;
+      d = (s[i] - 'A' - 1) / 3 + 2;
     }
     else
       continue;
+
+    res = res * 10 + d;
   }
 
   return res;

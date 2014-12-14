@@ -43,8 +43,8 @@ int main() {
         print(prev, cnt);
         flag = false;
         cnt = 1;
-        prev = curr;
       }
+      prev = curr;
     }
   }
 

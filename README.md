@@ -1,4 +1,4 @@
-#Coding Practice via C and Java
+#Coding Practice
 
 ##Problem Sets
 

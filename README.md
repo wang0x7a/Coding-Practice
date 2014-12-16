@@ -2,10 +2,10 @@
 
 ##Problem Sets
 
-[1] [100-interview-problems](http://blog.csdn.net/v\_JULY\_v/article/details/6015165)
+1. [100 Interview Problems](http://blog.csdn.net/v\_JULY\_v/article/details/6015165)
 
-[2] [cracking-the-coding-interview](http://www.crackingthecodinginterview.com/)
+2. [Cracking the Coding Interview](http://www.crackingthecodinginterview.com/)
 
-[3] [Bailian](http://bailian.openjudge.cn/practice/)
+3. [Bailian](http://bailian.openjudge.cn/practice/)
 
-[4] [POJ](http://poj.org)
+4. [POJ](http://poj.org)

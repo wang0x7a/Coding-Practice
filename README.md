@@ -1,17 +1,11 @@
-Coding Practice via C and Java
-=============================
+#Coding Practice via C and Java
 
-Problem Sets
-------------
+##Problem Sets
 
-[1] 100-interview-problems
+[1] [100-interview-problems](http://blog.csdn.net/v\_JULY\_v/article/details/6015165)
 
-    http://blog.csdn.net/v_JULY_v/article/details/6015165
+[2] [cracking-the-coding-interview](http://www.crackingthecodinginterview.com/)
 
-[2] cracking-the-coding-interview
+[3] [Bailian](http://bailian.openjudge.cn/practice/)
 
-    http://www.crackingthecodinginterview.com/
-
-[3] Bailian
-
-    http://bailian.openjudge.cn/practice/
+[4] [POJ](http://poj.org)

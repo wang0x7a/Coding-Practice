@@ -4,15 +4,25 @@
 
 using namespace std;
 
+typedef struct {
+  unsigned long curr_grp;
+  unsigned long visited;
+
+  int curr_sum;
+  int rest_sum;
+} Record;
+
 int pieces[MAX_PIECE_NUM];
 int piece_num;
 int piece_len_sum;
 unsigned long all_visited;
 
-
 void solve();
 void solve_helper(int tgt_value, int curr_sum, int rest_sum, 
-    int curr_grp, int visited, bool& res);
+    int idx, int curr_grp, int visited, bool& res);
+
+void solve_helper(int tgt_value, Record& record, int idx, bool& res);
+
 void print();
 unsigned long get_all_visited(int piece_num);
 
@@ -59,7 +69,7 @@ void solve() {
     if (piece_len_sum % tgt_value)
       continue;
 
-    solve_helper(tgt_value, 0, piece_len_sum, 0, 0, res);
+    solve_helper(tgt_value, 0, piece_len_sum, 0, 0, 0, res);
     if (res) {
       cout << tgt_value << endl;
       break;
@@ -69,11 +79,34 @@ void solve() {
   return;
 }
 
-void solve_helper(int tgt_value, int curr_sum, int rest_sum, 
-    int curr_grp, int visited, bool& res) {
+void solve_helper(int tgt_value, Record& record, int idx, bool& res) {
+  // find a legal solution
+  if (record.rest_sum == 0 && record.visited == all_visited) {
+    res = true;
+    return;
+  }
 
-  if (rest_sum % tgt_value) {
-    res = false;
+  // find a legal subset, whose sum equals to the target value
+  if (record.curr_sum == tgt_value) {
+    record.rest_sum -= tgt_value;
+    
+    // merge the subset into the visited set
+    record.visited = (record.visited | record.curr_grp);
+
+    // start to search another possible subset
+    solve_helper(tgt_value, record, 0, res);
+  }
+}
+
+void solve_helper(int tgt_value, int curr_sum, int rest_sum, 
+    int idx, int curr_grp, int visited, bool& res) {
+
+  if (rest_sum == 0 && visited == all_visited) {
+    res = true;
+    return;
+  }
+
+  if (idx >= piece_num) {
     return;
   }
 

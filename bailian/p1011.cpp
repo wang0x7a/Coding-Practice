@@ -89,13 +89,29 @@ void solve_helper(int tgt_value, Record& record, int idx, bool& res) {
   // find a legal subset, whose sum equals to the target value
   if (record.curr_sum == tgt_value) {
     record.rest_sum -= tgt_value;
+    record.curr_sum = 0;
     
     // merge the subset into the visited set
     record.visited = (record.visited | record.curr_grp);
 
-    // start to search another possible subset
+    // start to search another possible subset from index#0
     solve_helper(tgt_value, record, 0, res);
+
+    return;
   }
+
+  // idx exceeds piece_num, while the sum of current group is not equal to 
+  // the target value
+  // 1) ? then start new search, reseting the current group
+  // 2) return immediately 
+  if (idx >= piece_num) {
+    return;
+  }
+
+  // don't select the piece to which the idx points
+  solve_helper(tgt_value, record, idx + 1, res);
+
+  // select the piece indexed by idx
 }
 
 void solve_helper(int tgt_value, int curr_sum, int rest_sum, 

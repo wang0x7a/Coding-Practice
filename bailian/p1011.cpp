@@ -86,6 +86,15 @@ void solve_helper(int tgt_value, Record& record, int idx, bool& res) {
     return;
   }
 
+  // idx exceeds piece_num, while the sum of current group is not equal to 
+  // the target value
+  // 1) ? then start new search, reseting the current group
+  // 2) return immediately 
+  if (idx >= piece_num || record.curr_sum > tgt_value) {
+    return;
+  }
+
+
   // find a legal subset, whose sum equals to the target value
   if (record.curr_sum == tgt_value) {
     record.rest_sum -= tgt_value;
@@ -100,18 +109,21 @@ void solve_helper(int tgt_value, Record& record, int idx, bool& res) {
     return;
   }
 
-  // idx exceeds piece_num, while the sum of current group is not equal to 
-  // the target value
-  // 1) ? then start new search, reseting the current group
-  // 2) return immediately 
-  if (idx >= piece_num) {
-    return;
-  }
-
   // don't select the piece to which the idx points
   solve_helper(tgt_value, record, idx + 1, res);
 
   // select the piece indexed by idx
+  unsigned long mask = 1 << idx;
+
+  // current piece was not visited
+  if ((mask & record.visited) == 0) {
+    record.curr_sum += pieces[idx];
+
+    record.curr_grp = mask | record.curr_grp;
+    record.visited  = mask | record.visited;
+  }
+
+  solve_helper(tgt_value, record, idx + 1, res);
 }
 
 void solve_helper(int tgt_value, int curr_sum, int rest_sum, 

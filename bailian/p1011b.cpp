@@ -104,8 +104,21 @@ void solve_helper(int tgt_value, Record record, int idx, bool& res) {
   }
 
   /* don't select the piece to which the idx points */
+  int next_idx = idx - 1;
+  while (next_idx >= 0) {
+    if (record.curr_sum + pieces[next_idx] <= tgt_value)
+      break;
+
+    next_idx--;
+  }
+
+  /*
+  if (next_idx < 0)
+    return;
+  */
+
   Record record_copy = record;
-  solve_helper(tgt_value, record_copy, idx - 1, res);
+  solve_helper(tgt_value, record_copy, next_idx, res);
 
   /* select the piece indexed by idx */
   unsigned long mask = 1 << idx;
@@ -115,9 +128,21 @@ void solve_helper(int tgt_value, Record record, int idx, bool& res) {
     record.curr_sum += pieces[idx];
 
     record.visited = mask | record.visited;
-    solve_helper(tgt_value, record, idx - 1, res);
-  }
+    next_idx = idx - 1;
+    while (next_idx >= 0) {
+      if (record.curr_sum + pieces[next_idx] <= tgt_value)
+        break;
 
+      next_idx--;
+    }
+
+    /*
+    if (next_idx < 0)
+      return;
+    */
+    
+    solve_helper(tgt_value, record, next_idx, res);
+  }
 }
 
 void print() {

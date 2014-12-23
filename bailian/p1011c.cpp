@@ -73,12 +73,15 @@ bool dfs(int idx, int tgt_value, int acc, unsigned long visited, int rest) {
   if (idx < 0 || tgt_value < acc)
     return false;
 
-  bool res1 = false;
+  bool res = false;
   int next_idx;
 
   next_idx = get_next_idx(idx, visited, tgt_value, acc);
 
-  res1 = dfs(next_idx, tgt_value, acc, visited, rest);
+  res = dfs(next_idx, tgt_value, acc, visited, rest);
+
+  if (res)
+    return true;
 
   unsigned long mask = 1 << idx;
   if ((mask & visited) == 0) {
@@ -89,9 +92,9 @@ bool dfs(int idx, int tgt_value, int acc, unsigned long visited, int rest) {
 
   next_idx = get_next_idx(idx, visited, tgt_value, acc);
 
-  bool res2 = dfs(next_idx, tgt_value, acc, visited, rest);
+  res = dfs(next_idx, tgt_value, acc, visited, rest);
 
-  return res1 || res2;
+  return res;
 } 
 
 int get_next_idx(int idx, unsigned long visited, int tgt_value, int acc) {

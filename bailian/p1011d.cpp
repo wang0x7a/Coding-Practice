@@ -62,10 +62,13 @@ bool dfs(int idx, int tgt_value, int acc, int rest) {
   if (rest == 0)
     return true;
 
+  /*
   if (acc == tgt_value)
     return true && dfs(piece_num - 1, tgt_value, 0, rest - acc);
+  */
 
-  if (idx < 0 || acc > tgt_value)
+  //if (idx < 0 || acc > tgt_value)
+  if (idx < 0)
     return false;
 
   bool res = false;
@@ -79,15 +82,23 @@ bool dfs(int idx, int tgt_value, int acc, int rest) {
       */
 
       is_visited[i] = true;
-      if (acc + pieces[i] == tgt_value)
-        return true && dfs(piece_num - 1, tgt_value, 0, rest - tgt_value);
+      if (acc + pieces[i] == tgt_value 
+          && dfs(piece_num - 1, tgt_value, 0, rest - tgt_value))
+        return true;
+      else if (dfs(i - 1, tgt_value, acc + pieces[i], rest))
+        return true;
       
+      /*
       res = dfs(i - 1, tgt_value, acc + pieces[i], rest);
       if (res)
         return true;
+      */
 
       is_visited[i] = false;
 
+      if (pieces[i] == 0) return false;
+      if (rest == piece_len_sum) return false;
+      
       while (i >= 1 && pieces[i - 1] == pieces[i])
         i--;
     }

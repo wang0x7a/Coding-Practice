@@ -1,6 +1,6 @@
 import java.util.LinkedHashMap;
 import java.util.Collection;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ArrayList;
 
 public class LRUCache<K, V> {
@@ -19,7 +19,7 @@ public class LRUCache<K, V> {
             private static final long serialVersionUID = 1;
 
             @Override
-            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+            protected boolean removeEldestEntry(Entry<K, V> eldest) {
                 return size() > LRUCache.this.cacheSize;
             }
         };
@@ -41,8 +41,8 @@ public class LRUCache<K, V> {
         return map.size();
     }
 
-    public synchronized Collection<Map.Entry<K, V>> getAll() {
-        return new ArrayList<Map.Entry<K, V>>(map.entrySet());
+    public synchronized Collection<Entry<K, V>> getAll() {
+        return new ArrayList<Entry<K, V>>(map.entrySet());
     }
 
     public static void main(String[] args) {
@@ -70,7 +70,7 @@ public class LRUCache<K, V> {
         if (!c.get("2").equals("two"))
             throw new Error();
 
-        for (Map.Entry<String, String> e : c.getAll())
+        for (Entry<String, String> e : c.getAll())
             System.out.println(e.getKey() + " : " + e.getValue());
     }
 }

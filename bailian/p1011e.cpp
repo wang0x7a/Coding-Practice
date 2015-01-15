@@ -77,12 +77,12 @@ bool dfs(int idx, int tgt_value, int acc, int rest) {
     if (!is_visited[i] && acc + pieces[i] <= tgt_value) {
       is_visited[i] = true;
 
-      acc += pieces[i];
+      //acc += pieces[i];
 
       int next_idx;
       if (acc == tgt_value) {
         for (next_idx = piece_num - 1; 
-            is_visited[next_idx] || pieces[next_idx] > tgt_value; 
+            is_visited[next_idx]; 
             next_idx--)
           ;
 
@@ -96,14 +96,14 @@ bool dfs(int idx, int tgt_value, int acc, int rest) {
       }
       else {
         for (next_idx = i - 1; 
-            is_visited[next_idx] || pieces[next_idx] > tgt_value;
+            is_visited[next_idx];
             next_idx--)
           ;
 
         if (next_idx < 0)
           return false;
 
-        res = dfs(next_idx, tgt_value, acc, rest);
+        res = dfs(next_idx, tgt_value, acc + pieces[i], rest);
 
         if (res)
           return res;

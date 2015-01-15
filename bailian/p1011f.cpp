@@ -83,7 +83,8 @@ bool dfs(int idx, int tgt_value, int acc, int rest) {
       is_visited[i] = false;
 
       // pruning
-      if (pieces[i] == 0 || acc == 0)
+      //if (pieces[i] == 0 || acc == 0)
+      if (acc == 0)
         return false;
 
       while (i >= 1 && pieces[i - 1] == pieces[i])

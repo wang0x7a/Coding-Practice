@@ -1,9 +1,11 @@
 import java.util.LinkedHashMap;
 import java.util.Collection;
 import java.util.Map.Entry;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.Set;
 
-public class LRUCache<K, V> {
+public class LRUCache<K, V> implements Map<K, V> {
     private static final float hashTableLoadFactor = 0.75f;
 
     private LinkedHashMap<K, V> map;
@@ -25,24 +27,64 @@ public class LRUCache<K, V> {
         };
     }
 
-    public synchronized V get(K key) {
+    public boolean containsKey(Object key) {
+        return map.containsKey(key);
+    }
+
+    public boolean containsValue(Object value) {
+        return map.containsValue(value);
+    }
+
+    public V get(Object key) {
         return map.get(key);
     }
 
-    public synchronized void put(K key, V value) {
-        map.put(key, value);
+    public V put(K key, V value) {
+        return map.put(key, value);
     }
 
-    public synchronized void clear() {
+    public V remove(Object key) {
+        return map.remove(key);
+    }
+
+    public void putAll(Map<? extends K, ? extends V> m) {
+        map.putAll(m);
+    }
+
+    public Set<K> keySet() {
+        return map.keySet();
+    }
+
+    public void clear() {
         map.clear();
     }
 
-    public synchronized int usedEntries() {
+    public Set<Entry<K, V>> entrySet() {
+        return map.entrySet();
+    }
+
+    public int size() {
         return map.size();
     }
 
-    public synchronized Collection<Entry<K, V>> getAll() {
+    public boolean equals(Object o) {
+        return map.equals(o);
+    }
+
+    public int hashCode() {
+        return map.hashCode();
+    }
+    
+    public boolean isEmpty() {
+        return map.size() == 0;
+    }
+
+    public Collection<Entry<K, V>> getAll() {
         return new ArrayList<Entry<K, V>>(map.entrySet());
+    }
+
+    public Collection<V> values() {
+        return map.values();
     }
 
     public static void main(String[] args) {
@@ -58,7 +100,7 @@ public class LRUCache<K, V> {
         c.put("5", "five");
         c.put("4", "second four");
 
-        if (c.usedEntries() != 3)
+        if (c.size() != 3)
             throw new Error();
 
         if (!c.get("4").equals("second four"))
@@ -72,5 +114,11 @@ public class LRUCache<K, V> {
 
         for (Entry<String, String> e : c.getAll())
             System.out.println(e.getKey() + " : " + e.getValue());
+
+        for (String v : c.values())
+            System.out.println(v);
+
+        System.out.println(c.hashCode());
+
     }
 }

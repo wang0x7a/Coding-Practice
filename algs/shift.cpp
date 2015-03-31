@@ -2,7 +2,7 @@
  * Implemented two array shifting algorithms:
  *
  * 1) shift: shift by m steps
- * 2) del_shift: delete the nth element, and make a m-step shift
+ * 2) del_shift: delete the nth element, and make an m-step shift
  * */
 
 #include <iostream>

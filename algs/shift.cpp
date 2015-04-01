@@ -26,18 +26,22 @@ int main() {
 }
 
 void shift(int a[], int n, int steps) {
+  int acc = n - steps % n;
   for (int i = 0; i < n; i++)
-    cout << (a[i] + steps) % n << " ";
+    cout << (a[i] + acc) % n << " ";
 
   cout << endl;
 }
 
 void del_shift(int a[], int n, int d) {
+  int acc = n - (d + 1) % n;
   for (int i = 0; i < n; i++) {
-    if (i == d)
+    if (i == d) { 
+      cout << "x ";
       continue;
+    }
 
-    cout << ((a[i] + d + 1) % n) % (n - 1) << " ";
+    cout << ((a[i] + acc) % n) % (n - 1) << " ";
   }
 
   cout << endl;

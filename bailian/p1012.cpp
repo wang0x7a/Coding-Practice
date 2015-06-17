@@ -2,19 +2,41 @@
 
 using namespace std;
 
-int solve(int k);
+bool execute(int k, int m);
 
 int main() {
   int k;
   int m;
 
   while (cin >> k && k) {
-    m = solve(k);
+    for (m = k + 1; ;m++) {
 
-    cout << m << endl;
+      if (execute(k, m)) {
+        cout << m << endl;
+        break;
+      }
+
+    }
   }
 }
 
-int solve(int k) {
-  return 0;
+bool execute(int k, int m) {
+  int n = 2 * k;
+  int rest = n;
+  int e = 0;
+
+  bool res = true;
+
+  for (int i = 1; i <= k; i++) {
+    rest = n - i + 1;
+
+    e = (e + m - 1) % rest;
+
+    if (e < k) {
+      res = false;
+      break;
+    }
+  }
+
+  return res;
 }

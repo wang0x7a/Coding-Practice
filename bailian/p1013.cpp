@@ -13,7 +13,7 @@ int zero[MAX_COIN_NUM];
 
 void set_record(string side, int value)
 {
-  for (int i = 0, idx = 0; i < 4; i++)
+  for (int i = 0, idx = 0; i < side.length(); i++)
   {
     idx = side[i] - 'A';
     
@@ -44,14 +44,14 @@ int main()
       int idx;
       if (result == "even")
       {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < left.length(); i++)
         {
           idx = left[i] - 'A';
           zero[idx] = 0;
           coins[idx] = 0;
         }
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < right.length(); i++)
         {
           idx = right[i] - 'A';
           zero[idx] = 0;
